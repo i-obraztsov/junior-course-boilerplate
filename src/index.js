@@ -1,22 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import products from './products.json';
 
 import './index.css';
 
-const App = () => {
-  const pieceOfProducts = products.slice(0, 3);
+const rootEl = document.getElementById('root');
 
-  return (
-    <>
-      <h1>Список товаров</h1>
-      <ul>
-        {pieceOfProducts.map(({id, name}) => (
-          <li key={id}>{name}</li>
-        ))}
-      </ul>
-    </>
-  );
+const render = () => {
+  import('./components/App').then(({ App }) => {
+    ReactDOM.render(<App/>, rootEl);
+  });
 }
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+render();
+
+if (module.hot) {
+  module.hot.accept('./components/App', render)
+}
