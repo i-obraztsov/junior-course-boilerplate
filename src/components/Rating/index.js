@@ -1,7 +1,7 @@
 import React from 'react';
 import pt from 'prop-types';
 import { ReactComponent as Star } from './star.svg';
-import { Rating as RatingContainer } from '../../styles';
+import { Rating as RatingContainer } from './style';
 
 export function Rating({ isFilled = false }) {
   return (
