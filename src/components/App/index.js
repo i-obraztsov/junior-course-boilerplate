@@ -29,9 +29,7 @@ export function App() {
               <ListItemProduct key={id}>
                 <ProductItem
                   isInStock={in_stock}
-                  img={
-                    'https://images.unsplash.com/photo-1610392154742-03aed0fad04e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max'
-                  }
+                  img="https://images.unsplash.com/photo-1610392154742-03aed0fad04e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max"
                   title={name}
                   price={<Price isInStock={in_stock} price={price} />}
                   subPriceContent={
