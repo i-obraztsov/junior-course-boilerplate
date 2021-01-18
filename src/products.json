@@ -1,26 +1,50 @@
 [
   {
     "id": 1,
-    "name": "Имя товара1"
+    "name": "Название первого товара",
+    "rating": 1,
+    "price": 23000,
+    "sub_price": 30000,
+    "in_stock": false
   },
   {
     "id": 2,
-    "name": "Имя товара2"
+    "name": "Название второго товара",
+    "rating": 5,
+    "price": 0.9,
+    "sub_price": null,
+    "in_stock": true
   },
   {
     "id": 3,
-    "name": "Имя товара3"
+    "name": "Название третьего товара",
+    "rating": 2,
+    "price": 100,
+    "sub_price": null,
+    "in_stock": true
   },
   {
     "id": 4,
-    "name": "Имя товара4"
+    "name": "Название четвёртого товара",
+    "rating": 4,
+    "price": 145000,
+    "sub_price": null,
+    "in_stock": true
   },
   {
     "id": 5,
-    "name": "Имя товара5"
+    "name": "Название пятого товара",
+    "rating": 4,
+    "price": 7000,
+    "sub_price": null,
+    "in_stock": true
   },
   {
     "id": 6,
-    "name": "Имя товара6"
+    "name": "Название шестого товара",
+    "rating": 3,
+    "price": 12500,
+    "sub_price": null,
+    "in_stock": true
   }
 ]
