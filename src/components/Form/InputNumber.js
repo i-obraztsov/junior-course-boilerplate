@@ -14,7 +14,9 @@ export class InputNumber extends LogRender {
   }
 
   handleValue = (event) => {
-    this.setState({value: event.target.value})
+    let newValue = event.target.value.replace(/\D/g, '');
+
+    this.setState({ value: +newValue });
   }
 
   render() {
