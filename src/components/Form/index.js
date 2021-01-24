@@ -1,11 +1,11 @@
 import { Form } from './Form';
-import { Input } from './Input';
+import { InputNumber } from './InputNumber';
 
 import { Fieldset, Legend, Label, Button } from './style';
 
 export {
   Form,
-  Input,
+  InputNumber,
   Fieldset,
   Legend,
   Label,

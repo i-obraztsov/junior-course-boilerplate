@@ -1,6 +1,6 @@
 import React from 'react';
 import pt from 'prop-types';
-import { Form, Input, Fieldset, Legend, Label, Button } from '../Form';
+import { Form, InputNumber, Fieldset, Legend, Label, Button } from '../Form';
 import { LogRender } from '../LogRender';
 
 export class Filter extends LogRender {
@@ -31,12 +31,12 @@ export class Filter extends LogRender {
           <Legend>Цена</Legend>
           <Label>
             от
-            <Input type="number" ref={this.minRef} defaultValue={minPrice} />
+            <InputNumber value={minPrice} />
           </Label>
 
           <Label>
             до
-            <Input type="number" ref={this.maxRef} defaultValue={maxPrice} />
+            <InputNumber value={maxPrice} />
           </Label>
         </Fieldset>
 
