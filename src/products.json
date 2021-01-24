@@ -11,7 +11,7 @@
     "id": 2,
     "name": "Название второго товара",
     "rating": 5,
-    "price": 0.9,
+    "price": 1,
     "sub_price": null,
     "in_stock": true
   },

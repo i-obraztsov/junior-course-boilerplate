@@ -13,7 +13,7 @@ export const MainTitle = styled.h1`
 export const ListProducts = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   list-style: none;
   padding: 0 16px;
   margin: 0;
@@ -21,5 +21,10 @@ export const ListProducts = styled.ul`
 
 export const ListItemProduct = styled.li`
   margin-bottom: 56px;
+  margin-right: 32px;
   width: ${props => props.fullWidth ? '100%' : 'auto'};
+
+  :nth-child(3n) {
+    margin-right: 0;
+  }
 `;
