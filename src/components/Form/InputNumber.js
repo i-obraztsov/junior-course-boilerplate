@@ -14,18 +14,23 @@ export class InputNumber extends LogRender {
   }
 
   handleValue = (event) => {
-    let newValue = event.target.value.replace(/\D/g, '');
+    const { name } = event.currentTarget;
+    const newValue = +event.target.value.replace(/\D/g, '');
+    const { handleChangeInput } = this.props;
 
-    this.setState({ value: +newValue });
+    handleChangeInput({ [name]: newValue })
+    this.setState({ value: newValue });
   }
 
   render() {
+    const { name } = this.props;
     const { value } = this.state;
 
     return (
       <StyledInput
-        type="number"
+        type="text"
         value={value}
+        name={name}
         onChange={this.handleValue}
       />
     )
@@ -34,4 +39,5 @@ export class InputNumber extends LogRender {
 
 InputNumber.propTypes = {
   value: pt.number.isRequired,
+  name: pt.string.isRequired,
 };

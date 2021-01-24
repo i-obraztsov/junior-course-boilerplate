@@ -30,10 +30,10 @@ export class App extends React.Component {
   }
 
   filteredData(data = products, min, max) {
-    return data.filter(({ price }) => price >= min && price <= max)
+    return data.filter(({ price }) => price >= min && price <= max);
   }
 
-  handleChangeRangePrice = (min, max) => {
+  handleChangeRangePrice = ({ min, max }) => {
     const newProducts = this.filteredData(products, min, max);
 
     this.setState({
@@ -45,6 +45,7 @@ export class App extends React.Component {
 
   render() {
     const { minPrice, maxPrice, products } = this.state;
+
     return (
       <AppContainer>
         <Title tag="h1">Список товаров</Title>

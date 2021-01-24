@@ -4,22 +4,17 @@ import { Form, InputNumber, Fieldset, Legend, Label, Button } from '../Form';
 import { LogRender } from '../LogRender';
 
 export class Filter extends LogRender {
-  constructor(props) {
-    super(props);
-
-    this.minRef = React.createRef(0);
-    this.maxRef = React.createRef(100);
-  }
-
   handleSubmit = (event) => {
     event.preventDefault();
-    const { onApply } = this.props;
-    const min = +this.minRef.current.value;
-    const max = +this.maxRef.current.value;
+  }
 
-    if (min <= 0 || max <= 0 || min > max) return;
+  handleChangeInput = (filter) => {
+    const { onApply, minPrice, maxPrice } = this.props;
 
-    onApply(min, max);
+    onApply({
+      min: filter.minPrice || minPrice,
+      max: filter.maxPrice || maxPrice,
+    });
   }
 
   render() {
@@ -31,12 +26,20 @@ export class Filter extends LogRender {
           <Legend>Цена</Legend>
           <Label>
             от
-            <InputNumber value={minPrice} />
+            <InputNumber
+              value={minPrice}
+              handleChangeInput={this.handleChangeInput}
+              name="minPrice"
+            />
           </Label>
 
           <Label>
             до
-            <InputNumber value={maxPrice} />
+            <InputNumber
+              value={maxPrice}
+              handleChangeInput={this.handleChangeInput}
+              name="maxPrice"
+            />
           </Label>
         </Fieldset>
 
