@@ -1,15 +1,14 @@
 import styled from 'styled-components';
 
 export const StyledForm = styled.form`
-  font-family: "Open Sans", "Roboto", "Arial", sans-serif;
+  font-family: "Open Sans", sans-serif;
   margin-bottom: 20px;
 `
 
 export const Input = styled.input`
   padding: 4px 16px;
-  margin-left: 12px;
-  width: 91px;
-  appearance: textfield;
+  width: 100%;
+  height: 30px;
   font-size: 14px;
   line-height: 14px;
   font-weight: 400;
@@ -32,8 +31,8 @@ export const Legend = styled.legend`
 `
 
 export const Label = styled.label`
-  display: inline-block;
-  vertical-align: middle;
+  display: flex;
+  align-items: center;
   font-size: 14px;
   font-weight: 600;
   line-height: 14px;
@@ -54,4 +53,13 @@ export const Button = styled.button`
   background-color: #323C48;
   color: #FFF;
   cursor: pointer;
+`
+
+export const Row = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+export const InputWrap = styled.div`
+  margin-left: 12px;
 `

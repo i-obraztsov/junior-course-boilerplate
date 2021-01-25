@@ -24,3 +24,14 @@ body,
 svg {
   fill: currentColor;
 }
+
+form h3 {
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 16px !important;
+  font-family: "Open Sans", sans-serif !important;
+}
+
+input[name="sale"] {
+  max-width: 207px;
+}
