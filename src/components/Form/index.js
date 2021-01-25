@@ -1,13 +1,14 @@
 import { Form } from './Form';
-import { InputNumber } from './InputNumber';
+import { Input } from './Input';
 
-import { Fieldset, Legend, Label, Button } from './style';
+import { Fieldset, Legend, Label, Row, InputWrap } from './style';
 
 export {
   Form,
-  InputNumber,
+  Input,
   Fieldset,
   Legend,
   Label,
-  Button,
+  Row,
+  InputWrap,
 }
