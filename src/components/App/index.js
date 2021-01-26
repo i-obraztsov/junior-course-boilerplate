@@ -4,8 +4,8 @@ import { findMinAndMax } from '../../utils/findMinAndMax';
 import { calcDiscount } from '../../utils/calcDiscount';
 
 import { AppContent, AppContainer, Aside } from './style'
-import { Products } from '../Products';
-import { Filter } from '../Filter';
+import Products from '../Products';
+import Filter from '../Filter';
 import { Title } from '../Title';
 
 export class App extends React.Component {

@@ -1,32 +1,28 @@
 import React from 'react';
 import pt from 'prop-types';
-import { LogRender } from '../LogRender';
-import ProductItem from 'csssr-school-product-card/lib';
-import { Rating } from '../Rating';
-import { Price } from '../Price';
+import { withLogRender } from '../../hocs/withLogRender';
 import { EmptyContent } from '../EmptyContent';
+import ProductCard from '../ProductCard';
 
-import { ListProducts, ListItemProduct } from './../../styles'
+import { ListProducts, ListItemProduct } from './../../styles';
 
-export class Products extends LogRender {
+class Products extends React.Component {
   render() {
     const { products } = this.props;
+
     return (
       <ListProducts>
         {products.length ? (
           products.map(({ id, name, in_stock, price, sub_price, rating }) => (
             <ListItemProduct key={id}>
-              <ProductItem
+              <ProductCard
                 isInStock={in_stock}
                 img="https://images.unsplash.com/photo-1610392154742-03aed0fad04e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max"
                 title={name}
-                price={<Price isInStock={in_stock} price={price} />}
-                subPriceContent={
-                  <Price isInStock={in_stock} price={sub_price} isSub />
-                }
+                price={price}
+                subPrice={sub_price}
                 maxRating={5}
                 rating={rating}
-                ratingComponent={Rating}
               />
             </ListItemProduct>
           ))
@@ -39,6 +35,8 @@ export class Products extends LogRender {
     )
   }
 }
+
+export default withLogRender(Products);
 
 Products.propTypes = {
   products: pt.array.isRequired,

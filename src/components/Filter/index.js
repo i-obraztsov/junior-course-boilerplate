@@ -1,6 +1,7 @@
 import React from 'react';
 import pt from 'prop-types';
 import withInputNumber from '../../hocs/withInputNumber';
+import { withLogRender } from '../../hocs/withLogRender';
 import Discount from 'csssr-school-input-discount/lib';
 import {
   Form,
@@ -12,12 +13,11 @@ import {
   Row,
 } from '../Form';
 
-import { LogRender } from '../LogRender';
-
 const InputNumber = withInputNumber(Input);
 const DiscountInput = withInputNumber(Discount);
 
-export class Filter extends LogRender {
+
+class Filter extends React.Component {
   handleChangeInput = (filter) => {
     const { onApply, minPrice, maxPrice, discount } = this.props;
 
@@ -69,6 +69,8 @@ export class Filter extends LogRender {
     )
   }
 }
+
+export default withLogRender(Filter);
 
 Filter.propTypes = {
   minPrice: pt.number.isRequired,
