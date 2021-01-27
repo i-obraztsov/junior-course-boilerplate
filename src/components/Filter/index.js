@@ -11,6 +11,9 @@ import {
   Label,
   InputWrap,
   Row,
+  Button,
+  Checkbox,
+  LabelAsButton
 } from '../Form';
 
 const InputNumber = withInputNumber(Input);
@@ -33,13 +36,13 @@ class Filter extends React.Component {
   }
 
   render() {
-    const { minPrice, maxPrice, discount } = this.props;
+    const { minPrice, maxPrice, discount, categories } = this.props;
 
     return(
       <Form method="post" action="#" onSubmit={this.handleSubmit}>
         <Fieldset>
           <Legend>Цена</Legend>
-          <Row>
+          <Row noWrap>
             <Label>
               от
               <InputWrap>
@@ -48,7 +51,7 @@ class Filter extends React.Component {
                   name="minPrice"
                   handleChangeInput={this.handleChangeInput}
                 />
-                </InputWrap>
+              </InputWrap>
             </Label>
 
             <Label>
@@ -69,6 +72,24 @@ class Filter extends React.Component {
           value={discount}
           handleChangeInput={this.handleChangeInput}
         />
+
+        <Fieldset marginTop>
+          <Legend>Категории</Legend>
+            <Row>
+              {categories.map(category => {
+                return (
+                  <React.Fragment key={category}>
+                    <Checkbox id={category} name={category} value={category} />
+                    <LabelAsButton as="label" htmlFor={category} secondary>
+                      {category}
+                    </LabelAsButton>
+                  </React.Fragment>
+                )
+              })}
+            </Row>
+        </Fieldset>
+
+        <Button type="reset" secondary fullWidth>Сбросить фильтры</Button>
       </Form>
     )
   }
@@ -79,6 +100,7 @@ export default withLogRender(Filter);
 Filter.propTypes = {
   minPrice: pt.number.isRequired,
   maxPrice: pt.number.isRequired,
+  categories: pt.array.isRequired,
   discount: pt.number,
   onApply: pt.func.isRequired
 };

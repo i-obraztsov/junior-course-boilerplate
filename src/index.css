@@ -35,3 +35,8 @@ form h3 {
 input[name="sale"] {
   max-width: 207px;
 }
+
+input[name="sale"]:focus {
+  outline: 2px solid #4a90e2;
+  outline-offset: 2px;
+}

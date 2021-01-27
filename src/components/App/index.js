@@ -2,6 +2,7 @@ import React from 'react';
 import products from '../../products.json';
 import { findMinAndMax } from '../../utils/findMinAndMax';
 import { calcDiscount } from '../../utils/calcDiscount';
+import { uniqBy } from '../../utils/uniqBy';
 
 import { AppContent, AppContainer, Aside } from './style'
 import Products from '../Products';
@@ -19,15 +20,18 @@ export class App extends React.Component {
       maxPrice: max,
       discount: 0,
       products: [],
+      categories: [],
     }
   }
 
   componentDidMount() {
     const { minPrice, maxPrice, discount } = this.state;
     const filtered = this.filteredData(products, minPrice, maxPrice, discount);
+    const categories = uniqBy(products, 'category');
 
     this.setState({
       products: filtered,
+      categories,
     })
   }
 
@@ -50,7 +54,13 @@ export class App extends React.Component {
   }
 
   render() {
-    const { minPrice, maxPrice, discount, products } = this.state;
+    const {
+      minPrice,
+      maxPrice,
+      discount,
+      products,
+      categories
+    } = this.state;
 
     return (
       <AppContainer>
@@ -62,6 +72,7 @@ export class App extends React.Component {
               minPrice={minPrice}
               maxPrice={maxPrice}
               discount={discount}
+              categories={categories}
             />
           </Aside>
           <Products products={products} />
