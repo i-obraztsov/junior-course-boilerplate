@@ -18,6 +18,10 @@ const DiscountInput = withInputNumber(Discount);
 
 
 class Filter extends React.Component {
+  handleSubmit = (event) => {
+    event.preventDefault();
+  }
+
   handleChangeInput = (filter) => {
     const { onApply, minPrice, maxPrice, discount } = this.props;
 
@@ -32,7 +36,7 @@ class Filter extends React.Component {
     const { minPrice, maxPrice, discount } = this.props;
 
     return(
-      <Form method="post" action="#">
+      <Form method="post" action="#" onSubmit={this.handleSubmit}>
         <Fieldset>
           <Legend>Цена</Legend>
           <Row>
