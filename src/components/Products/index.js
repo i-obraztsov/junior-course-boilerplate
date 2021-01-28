@@ -13,11 +13,11 @@ class Products extends React.Component {
     return (
       <ListProducts>
         {products.length ? (
-          products.map(({ id, name, in_stock, price, sub_price, rating }) => (
+          products.map(({ id, name, in_stock, price, sub_price, rating, img }) => (
             <ListItemProduct key={id}>
               <ProductCard
                 isInStock={in_stock}
-                img="https://images.unsplash.com/photo-1610392154742-03aed0fad04e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max"
+                img={img}
                 title={name}
                 price={price}
                 subPrice={sub_price}
