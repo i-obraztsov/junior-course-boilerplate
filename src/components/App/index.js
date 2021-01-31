@@ -2,6 +2,7 @@ import React from 'react';
 import products from '../../products.json';
 import { findMinAndMax } from '../../utils/findMinAndMax';
 import { filterGoods } from '../../utils/filterGoods';
+import { parseQuery, stringifyQuery } from '../../utils/url';
 import { uniqBy } from '../../utils/uniqBy';
 
 import { AppContextProvider } from '../../AppContext';
@@ -30,10 +31,16 @@ export class App extends React.Component {
 
   componentDidMount() {
     const { minPrice, maxPrice, discount, activeCategories } = this.state;
-    const categories = uniqBy(products, 'category');
+    const allCategories = uniqBy(products, 'category');
+
+    const { category } = parseQuery(window.location.search.substr(1));
+
+    const categories = category
+      ? category
+      : activeCategories;
 
     const filtered = filterGoods(products, {
-      categories: activeCategories,
+      categories,
       minPrice,
       maxPrice,
       discount,
@@ -41,8 +48,24 @@ export class App extends React.Component {
 
     this.setState({
       products: filtered,
-      allCategories: categories,
+      allCategories,
+      activeCategories: categories,
+    });
+
+    window.addEventListener('popstate', this.setFromHistory);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.setFromHistory);
+  }
+
+  setFromHistory = (event) => {
+    const { category = [] } = parseQuery(window.location.search.substr(1));
+    this.setState({
+      activeCategories: category,
     })
+
+    this.handleApplyFilter({ activeCategories: category });
   }
 
   handleChange = (event) => {
@@ -58,6 +81,12 @@ export class App extends React.Component {
           (category) => category !== event.target.name
         );
       }
+
+      const url = `${window.location.pathname}?${stringifyQuery({
+        category: categories,
+      })}`;
+
+      window.history.pushState(null, 'category', url);
 
       newState = { activeCategories: categories };
     } else {
@@ -111,6 +140,8 @@ export class App extends React.Component {
       activeCategories: [],
       products: filtered,
     });
+
+    window.history.pushState(null, 'page', window.location.pathname);
   }
 
   render() {
