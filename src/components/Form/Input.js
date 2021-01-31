@@ -6,7 +6,7 @@ import { Input as StyledInput } from './style';
 export function Input(props) {
   return (
     <StyledInput
-      type="text"
+      type={props.type}
       value={props.value}
       name={props.name}
       onChange={props.onChange}
@@ -17,5 +17,6 @@ export function Input(props) {
 Input.propTypes = {
   value: pt.number.isRequired,
   name: pt.string.isRequired,
+  type: pt.string.isRequired,
   onChange: pt.func.isRequired,
 };

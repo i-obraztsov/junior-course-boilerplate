@@ -4,6 +4,9 @@ import { findMinAndMax } from '../../utils/findMinAndMax';
 import { filterGoods } from '../../utils/filterGoods';
 import { uniqBy } from '../../utils/uniqBy';
 
+import { AppContextProvider } from '../../AppContext';
+import { inputNumberMask } from '../../utils/inputNumberMask';
+
 import { AppContent, AppContainer, Aside } from './style';
 import { Title } from '../Title';
 import Products from '../Products';
@@ -21,15 +24,16 @@ export class App extends React.Component {
       discount: 0,
       activeCategories: [],
       products: [],
-      categories: [],
+      allCategories: [],
     }
   }
 
   componentDidMount() {
-    const { minPrice, maxPrice, discount } = this.state;
+    const { minPrice, maxPrice, discount, activeCategories } = this.state;
     const categories = uniqBy(products, 'category');
 
     const filtered = filterGoods(products, {
+      categories: activeCategories,
       minPrice,
       maxPrice,
       discount,
@@ -37,18 +41,53 @@ export class App extends React.Component {
 
     this.setState({
       products: filtered,
-      categories,
+      allCategories: categories,
     })
   }
 
-  handleChangeRangePrice = (filter) => {
-    const newProducts = filterGoods(products, filter);
+  handleChange = (event) => {
+    let newState = {};
+    if (event.target.type === 'checkbox') {
+      const { activeCategories } = this.state;
+      let categories = [];
+
+      if (event.target.checked) {
+        categories = activeCategories.concat(event.target.name);
+      } else {
+        categories = activeCategories.filter(
+          (category) => category !== event.target.name
+        );
+      }
+
+      newState = { activeCategories: categories };
+    } else {
+      const maskedValue = inputNumberMask(event.target.value);
+
+      newState = {
+        [event.target.name]: maskedValue,
+      };
+    }
+
+    this.handleApplyFilter(newState);
+    this.setState(newState);
+  }
+
+  handleApplyFilter = (filter) => {
+    const { minPrice, maxPrice, discount, activeCategories } = this.state;
+
+    const newFilter = {
+      minPrice: filter.minPrice !== undefined ? filter.minPrice : minPrice,
+      maxPrice: filter.maxPrice !== undefined ? filter.maxPrice : maxPrice,
+      discount: filter.discount !== undefined ? filter.discount : discount,
+      categories:
+        filter.activeCategories !== undefined
+          ? filter.activeCategories
+          : activeCategories,
+    };
+
+    const newProducts = filterGoods(products, newFilter);
 
     this.setState({
-      minPrice: filter.minPrice,
-      maxPrice: filter.maxPrice,
-      discount: filter.discount,
-      activeCategories: filter.categories,
       products: newProducts,
     });
   }
@@ -60,7 +99,7 @@ export class App extends React.Component {
       discount,
       products,
       activeCategories,
-      categories
+      allCategories
     } = this.state;
 
     return (
@@ -68,14 +107,15 @@ export class App extends React.Component {
         <Title tag="h1">Список товаров</Title>
         <AppContent>
           <Aside>
-            <Filter
-              onApply={this.handleChangeRangePrice}
-              minPrice={minPrice}
-              maxPrice={maxPrice}
-              discount={discount}
-              activeCategories={activeCategories}
-              categories={categories}
-            />
+            <AppContextProvider value={{
+              minPrice,
+              maxPrice,
+              discount,
+              activeCategories,
+              handleChange: this.handleChange,
+            }}>
+              <Filter categories={allCategories} />
+            </AppContextProvider>
           </Aside>
           <Products products={products} />
         </AppContent>

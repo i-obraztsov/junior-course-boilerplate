@@ -6,7 +6,7 @@ import { Checkbox as StyledCheckbox } from './style';
 export function Checkbox(props) {
   return (
     <StyledCheckbox
-      type="checkbox"
+      type={props.type}
       checked={props.checked}
       name={props.name}
       id={props.id}
@@ -19,6 +19,6 @@ Checkbox.propTypes = {
   name: pt.string.isRequired,
   checked: pt.bool,
   id: pt.string.isRequired,
-  value: pt.string,
+  type: pt.string.isRequired,
   onChange: pt.func.isRequired,
 };

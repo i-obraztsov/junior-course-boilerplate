@@ -1,6 +1,6 @@
 import React from 'react';
 import pt from 'prop-types';
-import withInputNumber from '../../hocs/withInputNumber';
+import withContext from '../../hocs/withContext';
 import { withLogRender } from '../../hocs/withLogRender';
 import Discount from 'csssr-school-input-discount/lib';
 import {
@@ -16,46 +16,17 @@ import {
   LabelAsButton
 } from '../Form';
 
-const InputNumber = withInputNumber(Input);
-const DiscountInput = withInputNumber(Discount);
+const InputNumber = withContext(Input);
+const DiscountInput = withContext(Discount);
+const CategoryCheckbox = withContext(Checkbox);
 
 class Filter extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
   }
 
-  handleChangeInput = (filter) => {
-    const {
-      onApply,
-      minPrice,
-      maxPrice,
-      discount,
-      activeCategories,
-    } = this.props;
-
-    onApply({
-      minPrice: filter.minPrice !== undefined ? filter.minPrice : minPrice,
-      maxPrice: filter.maxPrice !== undefined ? filter.maxPrice : maxPrice,
-      discount: filter.sale !== undefined ? filter.sale : discount,
-      categories: filter.categories !== undefined ? filter.categories : activeCategories,
-    });
-  }
-
-  onChangeCheckbox = (event) => {
-    const { activeCategories } = this.props;
-    let categories = activeCategories;
-
-    if (event.target.checked) {
-      categories = categories.concat(event.target.name);
-    } else {
-      categories = categories.filter(category => category !== event.target.name)
-    }
-
-    this.handleChangeInput({ categories })
-  }
-
   render() {
-    const { minPrice, maxPrice, discount, categories } = this.props;
+    const { categories } = this.props;
 
     return(
       <Form method="post" action="#" onSubmit={this.handleSubmit}>
@@ -65,31 +36,22 @@ class Filter extends React.Component {
             <Label>
               от
               <InputWrap>
-                <InputNumber
-                  value={minPrice}
-                  name="minPrice"
-                  handleChangeInput={this.handleChangeInput}
-                />
+                <InputNumber name="minPrice" type="text"/>
               </InputWrap>
             </Label>
 
             <Label>
               до
               <InputWrap>
-                <InputNumber
-                  value={maxPrice}
-                  name="maxPrice"
-                  handleChangeInput={this.handleChangeInput}
-                />
+                <InputNumber name="maxPrice" type="text" />
               </InputWrap>
             </Label>
           </Row>
         </Fieldset>
+
         <DiscountInput
           title="Скидка"
-          name="sale"
-          value={discount}
-          handleChangeInput={this.handleChangeInput}
+          name="discount"
         />
 
         <Fieldset marginTop>
@@ -98,11 +60,10 @@ class Filter extends React.Component {
               {categories.map(category => {
                 return (
                   <React.Fragment key={category}>
-                    <Checkbox
+                    <CategoryCheckbox
                       id={category}
+                      type="checkbox"
                       name={category}
-                      value={category}
-                      onChange={this.onChangeCheckbox}
                     />
                     <LabelAsButton as="label" htmlFor={category} secondary>
                       {category}
@@ -122,10 +83,6 @@ class Filter extends React.Component {
 export default withLogRender(Filter);
 
 Filter.propTypes = {
-  minPrice: pt.number.isRequired,
-  maxPrice: pt.number.isRequired,
   categories: pt.array.isRequired,
-  discount: pt.number,
-  onApply: pt.func.isRequired
 };
 
