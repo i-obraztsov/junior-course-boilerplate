@@ -19,20 +19,39 @@ import {
 const InputNumber = withInputNumber(Input);
 const DiscountInput = withInputNumber(Discount);
 
-
 class Filter extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
   }
 
   handleChangeInput = (filter) => {
-    const { onApply, minPrice, maxPrice, discount } = this.props;
+    const {
+      onApply,
+      minPrice,
+      maxPrice,
+      discount,
+      activeCategories,
+    } = this.props;
 
     onApply({
-      min: filter.minPrice !== undefined ? filter.minPrice : minPrice,
-      max: filter.maxPrice !== undefined ? filter.maxPrice : maxPrice,
+      minPrice: filter.minPrice !== undefined ? filter.minPrice : minPrice,
+      maxPrice: filter.maxPrice !== undefined ? filter.maxPrice : maxPrice,
       discount: filter.sale !== undefined ? filter.sale : discount,
+      categories: filter.categories !== undefined ? filter.categories : activeCategories,
     });
+  }
+
+  onChangeCheckbox = (event) => {
+    const { activeCategories } = this.props;
+    let categories = activeCategories;
+
+    if (event.target.checked) {
+      categories = categories.concat(event.target.name);
+    } else {
+      categories = categories.filter(category => category !== event.target.name)
+    }
+
+    this.handleChangeInput({ categories })
   }
 
   render() {
@@ -79,7 +98,12 @@ class Filter extends React.Component {
               {categories.map(category => {
                 return (
                   <React.Fragment key={category}>
-                    <Checkbox id={category} name={category} value={category} />
+                    <Checkbox
+                      id={category}
+                      name={category}
+                      value={category}
+                      onChange={this.onChangeCheckbox}
+                    />
                     <LabelAsButton as="label" htmlFor={category} secondary>
                       {category}
                     </LabelAsButton>

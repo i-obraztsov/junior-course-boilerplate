@@ -1,13 +1,13 @@
 import React from 'react';
 import products from '../../products.json';
 import { findMinAndMax } from '../../utils/findMinAndMax';
-import { calcDiscount } from '../../utils/calcDiscount';
+import { filterGoods } from '../../utils/filterGoods';
 import { uniqBy } from '../../utils/uniqBy';
 
-import { AppContent, AppContainer, Aside } from './style'
+import { AppContent, AppContainer, Aside } from './style';
+import { Title } from '../Title';
 import Products from '../Products';
 import Filter from '../Filter';
-import { Title } from '../Title';
 
 export class App extends React.Component {
   constructor(props) {
@@ -19,6 +19,7 @@ export class App extends React.Component {
       minPrice: min,
       maxPrice: max,
       discount: 0,
+      activeCategories: [],
       products: [],
       categories: [],
     }
@@ -26,8 +27,13 @@ export class App extends React.Component {
 
   componentDidMount() {
     const { minPrice, maxPrice, discount } = this.state;
-    const filtered = this.filteredData(products, minPrice, maxPrice, discount);
     const categories = uniqBy(products, 'category');
+
+    const filtered = filterGoods(products, {
+      minPrice,
+      maxPrice,
+      discount,
+    });
 
     this.setState({
       products: filtered,
@@ -35,20 +41,14 @@ export class App extends React.Component {
     })
   }
 
-  filteredData(data = products, min, max, discount) {
-    return data.filter(({ price, sub_price: subPrice }) => {
-      const currentDiscount = calcDiscount(subPrice, price);
-
-      return price >= min && price <= max && discount <= currentDiscount;
-    });
-  }
-
-  handleChangeRangePrice = ({ min, max, discount }) => {
-    const newProducts = this.filteredData(products, min, max, discount);
+  handleChangeRangePrice = (filter) => {
+    const newProducts = filterGoods(products, filter);
 
     this.setState({
-      minPrice: min,
-      maxPrice: max,
+      minPrice: filter.minPrice,
+      maxPrice: filter.maxPrice,
+      discount: filter.discount,
+      activeCategories: filter.categories,
       products: newProducts,
     });
   }
@@ -59,6 +59,7 @@ export class App extends React.Component {
       maxPrice,
       discount,
       products,
+      activeCategories,
       categories
     } = this.state;
 
@@ -72,6 +73,7 @@ export class App extends React.Component {
               minPrice={minPrice}
               maxPrice={maxPrice}
               discount={discount}
+              activeCategories={activeCategories}
               categories={categories}
             />
           </Aside>

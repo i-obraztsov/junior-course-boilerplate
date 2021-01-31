@@ -20,5 +20,5 @@ Checkbox.propTypes = {
   checked: pt.bool,
   id: pt.string.isRequired,
   value: pt.string,
-  // onChange: pt.func.isRequired,
+  onChange: pt.func.isRequired,
 };
