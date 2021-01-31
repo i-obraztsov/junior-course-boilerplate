@@ -26,7 +26,7 @@ class Filter extends React.Component {
   }
 
   render() {
-    const { categories } = this.props;
+    const { categories, resetFilter } = this.props;
 
     return(
       <Form method="post" action="#" onSubmit={this.handleSubmit}>
@@ -74,7 +74,7 @@ class Filter extends React.Component {
             </Row>
         </Fieldset>
 
-        <Button type="reset" secondary fullWidth>Сбросить фильтры</Button>
+        <Button type="reset" secondary fullWidth onClick={resetFilter}>Сбросить фильтры</Button>
       </Form>
     )
   }
@@ -84,5 +84,6 @@ export default withLogRender(Filter);
 
 Filter.propTypes = {
   categories: pt.array.isRequired,
+  resetFilter: pt.func.isRequired,
 };
 

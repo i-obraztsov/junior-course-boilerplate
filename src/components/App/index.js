@@ -92,6 +92,27 @@ export class App extends React.Component {
     });
   }
 
+  resetFilter = (event) => {
+    event.preventDefault();
+
+    const { min, max } = findMinAndMax(products);
+
+    const filtered = filterGoods(products, {
+      categories: [],
+      minPrice: min,
+      maxPrice: max,
+      discount: 0,
+    });
+
+    this.setState({
+      minPrice: min,
+      maxPrice: max,
+      discount: 0,
+      activeCategories: [],
+      products: filtered,
+    });
+  }
+
   render() {
     const {
       minPrice,
@@ -114,7 +135,7 @@ export class App extends React.Component {
               activeCategories,
               handleChange: this.handleChange,
             }}>
-              <Filter categories={allCategories} />
+              <Filter categories={allCategories} resetFilter={this.resetFilter} />
             </AppContextProvider>
           </Aside>
           <Products products={products} />
