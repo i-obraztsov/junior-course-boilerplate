@@ -1,7 +1,7 @@
 import { Form } from './Form';
 import { Input } from './Input';
 
-import { Fieldset, Legend, Label, Button } from './style';
+import { Fieldset, Legend, Label, Row, InputWrap } from './style';
 
 export {
   Form,
@@ -9,5 +9,6 @@ export {
   Fieldset,
   Legend,
   Label,
-  Button,
+  Row,
+  InputWrap,
 }

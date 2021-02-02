@@ -1,54 +1,85 @@
 import React from 'react';
 import pt from 'prop-types';
-import { Form, Input, Fieldset, Legend, Label, Button } from '../Form';
-import { LogRender } from '../LogRender';
+import withInputNumber from '../../hocs/withInputNumber';
+import { withLogRender } from '../../hocs/withLogRender';
+import Discount from 'csssr-school-input-discount/lib';
+import {
+  Form,
+  Input,
+  Fieldset,
+  Legend,
+  Label,
+  InputWrap,
+  Row,
+} from '../Form';
 
-export class Filter extends LogRender {
-  constructor(props) {
-    super(props);
+const InputNumber = withInputNumber(Input);
+const DiscountInput = withInputNumber(Discount);
 
-    this.minRef = React.createRef(0);
-    this.maxRef = React.createRef(100);
-  }
 
+class Filter extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
-    const { onApply } = this.props;
-    const min = +this.minRef.current.value;
-    const max = +this.maxRef.current.value;
+  }
 
-    if (min <= 0 || max <= 0 || min > max) return;
+  handleChangeInput = (filter) => {
+    const { onApply, minPrice, maxPrice, discount } = this.props;
 
-    onApply(min, max);
+    onApply({
+      min: filter.minPrice !== undefined ? filter.minPrice : minPrice,
+      max: filter.maxPrice !== undefined ? filter.maxPrice : maxPrice,
+      discount: filter.sale !== undefined ? filter.sale : discount,
+    });
   }
 
   render() {
-    const { minPrice, maxPrice } = this.props;
+    const { minPrice, maxPrice, discount } = this.props;
 
     return(
       <Form method="post" action="#" onSubmit={this.handleSubmit}>
         <Fieldset>
           <Legend>Цена</Legend>
-          <Label>
-            от
-            <Input type="number" ref={this.minRef} defaultValue={minPrice} />
-          </Label>
+          <Row>
+            <Label>
+              от
+              <InputWrap>
+                <InputNumber
+                  value={minPrice}
+                  name="minPrice"
+                  handleChangeInput={this.handleChangeInput}
+                />
+                </InputWrap>
+            </Label>
 
-          <Label>
-            до
-            <Input type="number" ref={this.maxRef} defaultValue={maxPrice} />
-          </Label>
+            <Label>
+              до
+              <InputWrap>
+                <InputNumber
+                  value={maxPrice}
+                  name="maxPrice"
+                  handleChangeInput={this.handleChangeInput}
+                />
+              </InputWrap>
+            </Label>
+          </Row>
         </Fieldset>
-
-        <Button type="submit">Применить</Button>
+        <DiscountInput
+          title="Скидка"
+          name="sale"
+          value={discount}
+          handleChangeInput={this.handleChangeInput}
+        />
       </Form>
     )
   }
 }
 
+export default withLogRender(Filter);
+
 Filter.propTypes = {
   minPrice: pt.number.isRequired,
   maxPrice: pt.number.isRequired,
+  discount: pt.number,
   onApply: pt.func.isRequired
 };
 

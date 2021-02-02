@@ -1,12 +1,21 @@
 import React from 'react';
+import pt from 'prop-types';
 
 import { Input as StyledInput } from './style';
 
-export const Input = React.forwardRef(({type, defaultValue, ...rest}, ref) => (
-  <StyledInput
-      type={type}
-      defaultValue={defaultValue}
-      ref={ref}
-      { ...rest }
+export function Input(props) {
+  return (
+    <StyledInput
+      type="text"
+      value={props.value}
+      name={props.name}
+      onChange={props.onChange}
     />
-));
+  )
+}
+
+Input.propTypes = {
+  value: pt.number.isRequired,
+  name: pt.string.isRequired,
+  onChange: pt.func.isRequired,
+};
