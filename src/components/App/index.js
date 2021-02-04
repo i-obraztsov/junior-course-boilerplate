@@ -2,11 +2,10 @@ import React from 'react';
 import products from '../../products.json';
 import { findMinAndMax } from '../../utils/findMinAndMax';
 import { filterGoods } from '../../utils/filterGoods';
-import { parseQuery, stringifyQuery } from '../../utils/url';
+import { parseQuery } from '../../utils/url';
 import { uniqBy } from '../../utils/uniqBy';
 
 import { AppContextProvider } from '../../AppContext';
-import { inputNumberMask } from '../../utils/inputNumberMask';
 
 import { AppContent, AppContainer, Aside } from './style';
 import { Title } from '../Title';
@@ -68,39 +67,6 @@ export class App extends React.Component {
     this.handleApplyFilter({ activeCategories: category });
   }
 
-  handleChange = (event) => {
-    let newState = {};
-    if (event.target.type === 'checkbox') {
-      const { activeCategories } = this.state;
-      let categories = [];
-
-      if (event.target.checked) {
-        categories = activeCategories.concat(event.target.name);
-      } else {
-        categories = activeCategories.filter(
-          (category) => category !== event.target.name
-        );
-      }
-
-      const url = `${window.location.pathname}?${stringifyQuery({
-        category: categories,
-      })}`;
-
-      window.history.pushState(null, 'category', url);
-
-      newState = { activeCategories: categories };
-    } else {
-      const maskedValue = inputNumberMask(event.target.value);
-
-      newState = {
-        [event.target.name]: maskedValue,
-      };
-    }
-
-    this.handleApplyFilter(newState);
-    this.setState(newState);
-  }
-
   handleApplyFilter = (filter) => {
     const { minPrice, maxPrice, discount, activeCategories } = this.state;
 
@@ -117,6 +83,7 @@ export class App extends React.Component {
     const newProducts = filterGoods(products, newFilter);
 
     this.setState({
+      ...filter,
       products: newProducts,
     });
   }
@@ -146,9 +113,6 @@ export class App extends React.Component {
 
   render() {
     const {
-      minPrice,
-      maxPrice,
-      discount,
       products,
       activeCategories,
       allCategories
@@ -159,14 +123,13 @@ export class App extends React.Component {
         <Title tag="h1">Список товаров</Title>
         <AppContent>
           <Aside>
-            <AppContextProvider value={{
-              minPrice,
-              maxPrice,
-              discount,
-              activeCategories,
-              handleChange: this.handleChange,
-            }}>
-              <Filter categories={allCategories} resetFilter={this.resetFilter} />
+            <AppContextProvider value={this.state}>
+              <Filter
+                applyFilter={this.handleApplyFilter}
+                categories={allCategories}
+                activeCategories={activeCategories}
+                resetFilter={this.resetFilter}
+              />
             </AppContextProvider>
           </Aside>
           <Products products={products} />

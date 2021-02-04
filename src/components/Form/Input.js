@@ -1,22 +1,26 @@
 import React from 'react';
 import pt from 'prop-types';
+import { AppContext } from '../../AppContext';
 
 import { Input as StyledInput } from './style';
 
 export function Input(props) {
   return (
-    <StyledInput
-      type={props.type}
-      value={props.value}
-      name={props.name}
-      onChange={props.onChange}
-    />
+    <AppContext.Consumer>
+      {(context) => (
+        <StyledInput
+          type={props.type}
+          value={context[props.name]}
+          name={props.name}
+          onChange={props.onChange}
+        />
+      )}
+    </AppContext.Consumer>
   )
 }
 
 Input.propTypes = {
-  value: pt.number.isRequired,
+  onChange: pt.func.isRequired,
   name: pt.string.isRequired,
   type: pt.string.isRequired,
-  onChange: pt.func.isRequired,
 };

@@ -1,7 +1,9 @@
 import React from 'react';
 import pt from 'prop-types';
-import withContext from '../../hocs/withContext';
+import { inputNumberMask } from '../../utils/inputNumberMask';
+import { stringifyQuery } from '../../utils/url';
 import { withLogRender } from '../../hocs/withLogRender';
+import { AppContext } from '../../AppContext';
 import Discount from 'csssr-school-input-discount/lib';
 import {
   Form,
@@ -16,13 +18,43 @@ import {
   LabelAsButton
 } from '../Form';
 
-const InputNumber = withContext(Input);
-const DiscountInput = withContext(Discount);
-const CategoryCheckbox = withContext(Checkbox);
-
 class Filter extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
+  }
+
+  handleChangePrice = (event) => {
+    const { applyFilter } = this.props;
+    const maskedValue = inputNumberMask(event.target.value);
+
+    const newState = {
+      [event.target.name]: maskedValue,
+    };
+
+    applyFilter(newState);
+  }
+
+  handleChangeCategory = (event) => {
+    const { applyFilter, activeCategories } = this.props;
+    let categories = [];
+
+    if (event.target.checked) {
+      categories = activeCategories.concat(event.target.name);
+    } else {
+      categories = activeCategories.filter(
+        (category) => category !== event.target.name
+      );
+    }
+
+    const url = `${window.location.pathname}?${stringifyQuery({
+      category: categories,
+    })}`;
+
+    window.history.pushState(null, 'category', url);
+
+    const newState = { activeCategories: categories };
+
+    applyFilter(newState);
   }
 
   render() {
@@ -36,23 +68,37 @@ class Filter extends React.Component {
             <Label>
               от
               <InputWrap>
-                <InputNumber name="minPrice" type="text"/>
+                <Input
+                  name="minPrice"
+                  type="text"
+                  onChange={this.handleChangePrice}
+                />
               </InputWrap>
             </Label>
 
             <Label>
               до
               <InputWrap>
-                <InputNumber name="maxPrice" type="text" />
+                <Input
+                  name="maxPrice"
+                  type="text"
+                  onChange={this.handleChangePrice}
+                />
               </InputWrap>
             </Label>
           </Row>
         </Fieldset>
 
-        <DiscountInput
-          title="Скидка"
-          name="discount"
-        />
+        <AppContext.Consumer>
+          {(context) => (
+            <Discount
+              title="Скидка"
+              name="discount"
+              onChange={this.handleChangePrice}
+              value={context.discount}
+            />
+          )}
+        </AppContext.Consumer>
 
         <Fieldset marginTop>
           <Legend>Категории</Legend>
@@ -60,10 +106,11 @@ class Filter extends React.Component {
               {categories.map(category => {
                 return (
                   <React.Fragment key={category}>
-                    <CategoryCheckbox
+                    <Checkbox
                       id={category}
                       type="checkbox"
                       name={category}
+                      onChange={this.handleChangeCategory}
                     />
                     <LabelAsButton as="label" htmlFor={category} secondary>
                       {category}
@@ -74,7 +121,14 @@ class Filter extends React.Component {
             </Row>
         </Fieldset>
 
-        <Button type="reset" secondary fullWidth onClick={resetFilter}>Сбросить фильтры</Button>
+        <Button
+          type="reset"
+          secondary
+          fullWidth
+          onClick={resetFilter}
+        >
+          Сбросить фильтры
+        </Button>
       </Form>
     )
   }
@@ -83,6 +137,8 @@ class Filter extends React.Component {
 export default withLogRender(Filter);
 
 Filter.propTypes = {
+  applyFilter: pt.func.isRequired,
+  activeCategories: pt.array.isRequired,
   categories: pt.array.isRequired,
   resetFilter: pt.func.isRequired,
 };
