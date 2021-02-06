@@ -7,7 +7,7 @@ import { Price } from '../Price';
 
 class ProductCard extends React.Component {
   render() {
-    const { isInStock, title, price, supPrice, rating, img } = this.props;
+    const { isInStock, title, price, subPrice, rating, img } = this.props;
     return (
       <ProductItem
         isInStock={isInStock}
@@ -15,7 +15,7 @@ class ProductCard extends React.Component {
         title={title}
         price={<Price isInStock={isInStock} price={price} />}
         subPriceContent={
-          <Price isInStock={isInStock} price={supPrice} isSub />
+          <Price isInStock={isInStock} price={subPrice} isSub />
         }
         maxRating={5}
         rating={rating}

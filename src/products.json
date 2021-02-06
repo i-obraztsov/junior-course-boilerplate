@@ -6,6 +6,7 @@
     "price": 21000,
     "sub_price": 30000,
     "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "books",
     "in_stock": false
   },
   {
@@ -15,6 +16,7 @@
     "price": 1,
     "sub_price": null,
     "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "books",
     "in_stock": true
   },
   {
@@ -24,6 +26,7 @@
     "price": 100,
     "sub_price": null,
     "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "food",
     "in_stock": true
   },
   {
@@ -33,6 +36,7 @@
     "price": 145000,
     "sub_price": null,
     "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "clothes",
     "in_stock": true
   },
   {
@@ -42,6 +46,7 @@
     "price": 7000,
     "sub_price": null,
     "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "clothes",
     "in_stock": true
   },
   {
@@ -51,6 +56,87 @@
     "price": 12500,
     "sub_price": null,
     "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "construction and repair",
+    "in_stock": true
+  },
+  {
+    "id": 7,
+    "name": "Название n-го товара",
+    "rating": 3,
+    "price": 12500,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "construction and repair",
+    "in_stock": true
+  },
+  {
+    "id": 8,
+    "name": "Название первого товара",
+    "rating": 1,
+    "price": 21000,
+    "sub_price": 30000,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "books",
+    "in_stock": false
+  },
+  {
+    "id": 9,
+    "name": "Название второго товара",
+    "rating": 5,
+    "price": 1,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "books",
+    "in_stock": true
+  },
+  {
+    "id": 10,
+    "name": "Название третьего товара",
+    "rating": 2,
+    "price": 100,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "food",
+    "in_stock": true
+  },
+  {
+    "id": 11,
+    "name": "Название четвёртого товара",
+    "rating": 4,
+    "price": 145000,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "clothes",
+    "in_stock": true
+  },
+  {
+    "id": 12,
+    "name": "Название пятого товара",
+    "rating": 4,
+    "price": 7000,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "clothes",
+    "in_stock": true
+  },
+  {
+    "id": 13,
+    "name": "Самое длинное название из всех, что есть. Очень-очень длинное",
+    "rating": 3,
+    "price": 12500,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "construction and repair",
+    "in_stock": true
+  },
+  {
+    "id": 14,
+    "name": "Название n-го товара",
+    "rating": 3,
+    "price": 12500,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "goods for kids",
     "in_stock": true
   }
 ]

@@ -1,12 +1,16 @@
 import React from 'react';
 import products from '../../products.json';
 import { findMinAndMax } from '../../utils/findMinAndMax';
-import { calcDiscount } from '../../utils/calcDiscount';
+import { filterGoods } from '../../utils/filterGoods';
+import { parseQuery } from '../../utils/url';
+import { uniqBy } from '../../utils/uniqBy';
 
-import { AppContent, AppContainer, Aside } from './style'
+import { AppContextProvider } from '../../AppContext';
+
+import { AppContent, AppContainer, Aside } from './style';
+import { Title } from '../Title';
 import Products from '../Products';
 import Filter from '../Filter';
-import { Title } from '../Title';
 
 export class App extends React.Component {
   constructor(props) {
@@ -18,51 +22,115 @@ export class App extends React.Component {
       minPrice: min,
       maxPrice: max,
       discount: 0,
+      activeCategories: [],
       products: [],
+      allCategories: [],
     }
   }
 
   componentDidMount() {
-    const { minPrice, maxPrice, discount } = this.state;
-    const filtered = this.filteredData(products, minPrice, maxPrice, discount);
+    const { minPrice, maxPrice, discount, activeCategories } = this.state;
+    const allCategories = uniqBy(products, 'category');
+
+    const { category } = parseQuery(window.location.search.substr(1));
+
+    const categories = category
+      ? category
+      : activeCategories;
+
+    const filtered = filterGoods(products, {
+      categories,
+      minPrice,
+      maxPrice,
+      discount,
+    });
 
     this.setState({
       products: filtered,
-    })
-  }
-
-  filteredData(data = products, min, max, discount) {
-    return data.filter(({ price, sub_price: subPrice }) => {
-      const currentDiscount = calcDiscount(subPrice, price);
-
-      return price >= min && price <= max && discount <= currentDiscount;
+      allCategories,
+      activeCategories: categories,
     });
+
+    window.addEventListener('popstate', this.setFromHistory);
   }
 
-  handleChangeRangePrice = ({ min, max, discount }) => {
-    const newProducts = this.filteredData(products, min, max, discount);
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.setFromHistory);
+  }
+
+  setFromHistory = (event) => {
+    const { category = [] } = parseQuery(window.location.search.substr(1));
+    this.setState({
+      activeCategories: category,
+    })
+
+    this.handleApplyFilter({ activeCategories: category });
+  }
+
+  handleApplyFilter = (filter) => {
+    const { minPrice, maxPrice, discount, activeCategories } = this.state;
+
+    const newFilter = {
+      minPrice: filter.minPrice !== undefined ? filter.minPrice : minPrice,
+      maxPrice: filter.maxPrice !== undefined ? filter.maxPrice : maxPrice,
+      discount: filter.discount !== undefined ? filter.discount : discount,
+      categories:
+        filter.activeCategories !== undefined
+          ? filter.activeCategories
+          : activeCategories,
+    };
+
+    const newProducts = filterGoods(products, newFilter);
 
     this.setState({
-      minPrice: min,
-      maxPrice: max,
+      ...filter,
       products: newProducts,
     });
   }
 
+  resetFilter = (event) => {
+    event.preventDefault();
+
+    const { min, max } = findMinAndMax(products);
+
+    const filtered = filterGoods(products, {
+      categories: [],
+      minPrice: min,
+      maxPrice: max,
+      discount: 0,
+    });
+
+    this.setState({
+      minPrice: min,
+      maxPrice: max,
+      discount: 0,
+      activeCategories: [],
+      products: filtered,
+    });
+
+    window.history.pushState(null, 'page', window.location.pathname);
+  }
+
   render() {
-    const { minPrice, maxPrice, discount, products } = this.state;
+    const {
+      products,
+      activeCategories,
+      allCategories
+    } = this.state;
 
     return (
       <AppContainer>
         <Title tag="h1">Список товаров</Title>
         <AppContent>
           <Aside>
-            <Filter
-              onApply={this.handleChangeRangePrice}
-              minPrice={minPrice}
-              maxPrice={maxPrice}
-              discount={discount}
-            />
+            <AppContextProvider value={this.state}>
+              <Filter
+                applyFilter={this.handleApplyFilter}
+                categories={allCategories}
+                activeCategories={activeCategories}
+                resetFilter={this.resetFilter}
+              />
+            </AppContextProvider>
           </Aside>
           <Products products={products} />
         </AppContent>
