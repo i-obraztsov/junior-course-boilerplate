@@ -1,6 +1,6 @@
 import { calcDiscount } from './calcDiscount';
 
-export const filterGoods = (data, filter) => {
+export const filterGoods = (data = [], filter) => {
   let goods = data;
 
   if (filter.categories && filter.categories.length) {
