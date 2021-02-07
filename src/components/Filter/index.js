@@ -1,9 +1,7 @@
 import React from 'react';
 import pt from 'prop-types';
 import { inputNumberMask } from '../../utils/inputNumberMask';
-import { stringifyQuery } from '../../utils/url';
-import { withLogRender } from '../../hocs/withLogRender';
-import { AppContext } from '../../AppContext';
+import { stringifyQuery, parseQuery } from '../../utils/url';
 import Discount from 'csssr-school-input-discount/lib';
 import {
   Form,
@@ -18,7 +16,39 @@ import {
   LabelAsButton
 } from '../Form';
 
-class Filter extends React.Component {
+export default class Filter extends React.Component {
+  static defaultProps = {
+    applyFilter: () => {},
+    minPrice: 0,
+    maxPrice: 10,
+    discount: 0,
+    categories: [],
+    activeCategories: [],
+    resetFilter: () => {},
+  }
+
+  componentDidMount() {
+    const { applyFilter } = this.props;
+    const { category } = parseQuery(window.location.search.substr(1));
+
+    if (category) {
+      applyFilter({ activeCategories: category });
+    }
+
+    window.addEventListener('popstate', this.setFromHistory);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('popstate', this.setFromHistory);
+  }
+
+  setFromHistory = (event) => {
+    const { applyFilter } = this.props;
+    const { category = [] } = parseQuery(window.location.search.substr(1));
+
+    applyFilter({ activeCategories: category });
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
   }
@@ -57,8 +87,23 @@ class Filter extends React.Component {
     applyFilter(newState);
   }
 
+  handleResetFilter = (event) => {
+    event.preventDefault();
+
+    const { resetFilter } = this.props;
+
+    resetFilter();
+    window.history.pushState(null, 'page', window.location.pathname);
+  }
+
   render() {
-    const { categories, resetFilter } = this.props;
+    const {
+      activeCategories,
+      categories,
+      discount,
+      minPrice,
+      maxPrice,
+    } = this.props;
 
     return(
       <Form method="post" action="#" onSubmit={this.handleSubmit}>
@@ -71,6 +116,7 @@ class Filter extends React.Component {
                 <Input
                   name="minPrice"
                   type="text"
+                  value={minPrice}
                   onChange={this.handleChangePrice}
                 />
               </InputWrap>
@@ -82,6 +128,7 @@ class Filter extends React.Component {
                 <Input
                   name="maxPrice"
                   type="text"
+                  value={maxPrice}
                   onChange={this.handleChangePrice}
                 />
               </InputWrap>
@@ -89,16 +136,12 @@ class Filter extends React.Component {
           </Row>
         </Fieldset>
 
-        <AppContext.Consumer>
-          {(context) => (
-            <Discount
-              title="Скидка"
-              name="discount"
-              onChange={this.handleChangePrice}
-              value={context.discount}
-            />
-          )}
-        </AppContext.Consumer>
+        <Discount
+          title="Скидка"
+          name="discount"
+          onChange={this.handleChangePrice}
+          value={discount}
+        />
 
         <Fieldset marginTop>
           <Legend>Категории</Legend>
@@ -109,6 +152,7 @@ class Filter extends React.Component {
                     <Checkbox
                       id={category}
                       type="checkbox"
+                      checked={activeCategories.includes(category)}
                       name={category}
                       onChange={this.handleChangeCategory}
                     />
@@ -125,7 +169,7 @@ class Filter extends React.Component {
           type="reset"
           secondary
           fullWidth
-          onClick={resetFilter}
+          onClick={this.handleResetFilter}
         >
           Сбросить фильтры
         </Button>
@@ -134,12 +178,13 @@ class Filter extends React.Component {
   }
 }
 
-export default withLogRender(Filter);
-
 Filter.propTypes = {
   applyFilter: pt.func.isRequired,
-  activeCategories: pt.array.isRequired,
-  categories: pt.array.isRequired,
+  minPrice: pt.number.isRequired,
+  maxPrice: pt.number.isRequired,
+  discount: pt.number.isRequired,
+  categories: pt.arrayOf(pt.string).isRequired,
+  activeCategories: pt.arrayOf(pt.string).isRequired,
   resetFilter: pt.func.isRequired,
 };
 
