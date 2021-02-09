@@ -1,12 +1,28 @@
 import { connect } from 'react-redux';
+import { filterGoods } from '../utils/filterGoods';
+import { memoize } from '../utils/memoize';
 import Products from '../components/Products';
 
-const mapStateToProps = (state) => ({
-  minPrice: state.minPrice,
-  maxPrice: state.maxPrice,
-  discount: state.discount,
-  products: state.products,
-  activeCategories: state.activeCategories,
-});
+const memoizeFilter = memoize(filterGoods);
+
+const mapStateToProps = ({
+  minPrice,
+  maxPrice,
+  discount,
+  activeCategories,
+  allCategories,
+  products,
+}) => {
+  const filteredProducts = memoizeFilter(products, {
+    categories: activeCategories.length ? activeCategories : allCategories,
+    minPrice,
+    maxPrice,
+    discount,
+  });
+
+  return {
+    products: filteredProducts,
+  };
+};
 
 export default connect(mapStateToProps)(Products);

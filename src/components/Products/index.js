@@ -2,44 +2,21 @@ import React from 'react';
 import pt from 'prop-types';
 import { EmptyContent } from '../EmptyContent';
 import ProductCard from '../ProductCard';
-import { filterGoods } from '../../utils/filterGoods';
-import { memoize } from '../../utils/memoize';
 
 import { ListProducts, ListItemProduct } from './../../styles';
 
-const memoizeFilter = memoize(filterGoods);
-
 export default class Products extends React.Component {
   static defaultProps = {
-    allCategories: [],
-    activeCategories: [],
-    minPrice: 0,
-    maxPrice: 10,
-    discount: 0,
     products: [],
   }
 
   render() {
-    const {
-      allCategories,
-      activeCategories,
-      minPrice,
-      maxPrice,
-      discount,
-      products,
-    } = this.props;
-
-    const filtered = memoizeFilter(products, {
-      categories: activeCategories.length ? activeCategories : allCategories,
-      minPrice,
-      maxPrice,
-      discount,
-    });
+    const { products } = this.props;
 
     return (
       <ListProducts>
-        {filtered.length ? (
-          filtered.map(({ id, name, in_stock, price, sub_price, rating, img }) => (
+        {products.length ? (
+          products.map(({ id, name, in_stock, price, sub_price, rating, img }) => (
             <ListItemProduct key={id}>
               <ProductCard
                 isInStock={in_stock}
@@ -76,9 +53,4 @@ Products.propTypes = {
     category: pt.string.isRequired,
     in_stock: pt.bool.isRequired,
   }).isRequired).isRequired,
-  allCategories: pt.arrayOf(pt.string).isRequired,
-  activeCategories: pt.arrayOf(pt.string).isRequired,
-  minPrice: pt.number.isRequired,
-  maxPrice: pt.number.isRequired,
-  discount: pt.number.isRequired,
 };
