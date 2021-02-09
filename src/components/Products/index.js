@@ -3,8 +3,11 @@ import pt from 'prop-types';
 import { EmptyContent } from '../EmptyContent';
 import ProductCard from '../ProductCard';
 import { filterGoods } from '../../utils/filterGoods';
+import { memoize } from '../../utils/memoize';
 
 import { ListProducts, ListItemProduct } from './../../styles';
+
+const memoizeFilter = memoize(filterGoods);
 
 export default class Products extends React.Component {
   static defaultProps = {
@@ -26,7 +29,7 @@ export default class Products extends React.Component {
       products,
     } = this.props;
 
-    const filtered = filterGoods(products, {
+    const filtered = memoizeFilter(products, {
       categories: activeCategories.length ? activeCategories : allCategories,
       minPrice,
       maxPrice,
