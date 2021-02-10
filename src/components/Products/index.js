@@ -1,12 +1,15 @@
 import React from 'react';
 import pt from 'prop-types';
-import { withLogRender } from '../../hocs/withLogRender';
 import { EmptyContent } from '../EmptyContent';
 import ProductCard from '../ProductCard';
 
 import { ListProducts, ListItemProduct } from './../../styles';
 
-class Products extends React.Component {
+export default class Products extends React.Component {
+  static defaultProps = {
+    products: [],
+  }
+
   render() {
     const { products } = this.props;
 
@@ -36,8 +39,18 @@ class Products extends React.Component {
   }
 }
 
-export default withLogRender(Products);
-
 Products.propTypes = {
-  products: pt.array.isRequired,
+  products: pt.arrayOf(pt.shape({
+    id: pt.number.isRequired,
+    name: pt.string.isRequired,
+    rating: pt.number.isRequired,
+    price: pt.number.isRequired,
+    sub_price: pt.oneOfType([
+      pt.number,
+      pt.oneOf([null])
+    ]),
+    img: pt.string.isRequired,
+    category: pt.string.isRequired,
+    in_stock: pt.bool.isRequired,
+  }).isRequired).isRequired,
 };
