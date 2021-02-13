@@ -5,6 +5,7 @@ export const AppContainer = styled.div`
   max-width: 768px;
   margin: 0 auto;
   margin-top: 60px;
+  margin-bottom: 60px;
 `;
 
 export const AppContent = styled.main`

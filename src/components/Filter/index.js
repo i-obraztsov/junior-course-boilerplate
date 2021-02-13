@@ -11,10 +11,11 @@ import {
   Label,
   InputWrap,
   Row,
-  Button,
   Checkbox,
   LabelAsButton
 } from '../Form';
+
+import { BaseButton } from '../../styles';
 
 export default class Filter extends React.Component {
   static defaultProps = {
@@ -165,14 +166,14 @@ export default class Filter extends React.Component {
             </Row>
         </Fieldset>
 
-        <Button
+        <BaseButton
           type="reset"
           secondary
           fullWidth
           onClick={this.handleResetFilter}
         >
           Сбросить фильтры
-        </Button>
+        </BaseButton>
       </Form>
     )
   }
