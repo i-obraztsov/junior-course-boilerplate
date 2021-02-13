@@ -4,7 +4,7 @@ import { EmptyContent } from '../EmptyContent';
 import ProductCard from '../ProductCard';
 import { Pagination } from '../Pagination';
 
-import { ListProducts, ListItemProduct } from './../../styles';
+import { ListProducts, ListItemProduct } from './style';
 
 export default class Products extends React.Component {
   static defaultProps = {
