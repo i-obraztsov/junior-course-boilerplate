@@ -5,19 +5,14 @@ import Products from '../components/Products';
 
 const memoizeFilter = memoize(filterGoods);
 
-const mapStateToProps = ({
-  minPrice,
-  maxPrice,
-  discount,
-  activeCategories,
-  allCategories,
-  products,
-}) => {
-  const filteredProducts = memoizeFilter(products, {
-    categories: activeCategories.length ? activeCategories : allCategories,
-    minPrice,
-    maxPrice,
-    discount,
+const mapStateToProps = ({ filter }) => {
+  const filteredProducts = memoizeFilter(filter.products, {
+    categories: filter.activeCategories.length
+      ? filter.activeCategories
+      : filter.allCategories,
+    minPrice: filter.minPrice,
+    maxPrice: filter.maxPrice,
+    discount: filter.discount,
   });
 
   return {

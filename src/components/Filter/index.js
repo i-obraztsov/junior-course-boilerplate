@@ -18,7 +18,7 @@ import {
 
 export default class Filter extends React.Component {
   static defaultProps = {
-    applyFilter: () => {},
+    setFilter: () => {},
     minPrice: 0,
     maxPrice: 10,
     discount: 0,
@@ -28,11 +28,11 @@ export default class Filter extends React.Component {
   }
 
   componentDidMount() {
-    const { applyFilter } = this.props;
+    const { setFilter } = this.props;
     const { category } = parseQuery(window.location.search.substr(1));
 
     if (category) {
-      applyFilter({ activeCategories: category });
+      setFilter({ activeCategories: category });
     }
 
     window.addEventListener('popstate', this.setFromHistory);
@@ -43,10 +43,10 @@ export default class Filter extends React.Component {
   }
 
   setFromHistory = (event) => {
-    const { applyFilter } = this.props;
+    const { setFilter } = this.props;
     const { category = [] } = parseQuery(window.location.search.substr(1));
 
-    applyFilter({ activeCategories: category });
+    setFilter({ activeCategories: category });
   }
 
   handleSubmit = (event) => {
@@ -54,18 +54,18 @@ export default class Filter extends React.Component {
   }
 
   handleChangePrice = (event) => {
-    const { applyFilter } = this.props;
+    const { setFilter } = this.props;
     const maskedValue = inputNumberMask(event.target.value);
 
     const newState = {
       [event.target.name]: maskedValue,
     };
 
-    applyFilter(newState);
+    setFilter(newState);
   }
 
   handleChangeCategory = (event) => {
-    const { applyFilter, activeCategories } = this.props;
+    const { setFilter, activeCategories } = this.props;
     let categories = [];
 
     if (event.target.checked) {
@@ -84,7 +84,7 @@ export default class Filter extends React.Component {
 
     const newState = { activeCategories: categories };
 
-    applyFilter(newState);
+    setFilter(newState);
   }
 
   handleResetFilter = (event) => {
@@ -179,7 +179,7 @@ export default class Filter extends React.Component {
 }
 
 Filter.propTypes = {
-  applyFilter: pt.func.isRequired,
+  setFilter: pt.func.isRequired,
   minPrice: pt.number.isRequired,
   maxPrice: pt.number.isRequired,
   discount: pt.number.isRequired,
