@@ -14,34 +14,36 @@ export default class Products extends React.Component {
   render() {
     const { products, currentPage, setPage, pushHistory } = this.props;
 
+    if (!products.length || currentPage > products.length) {
+      return <EmptyContent />
+    }
+
     return (
-      products.length && currentPage <= products.length ? (
-        <>
-          <ListProducts>
-            {products[currentPage - 1].map(
-              ({ id, name, in_stock, price, sub_price, rating, img }) => (
-                <ListItemProduct key={id}>
-                  <ProductCard
-                    isInStock={in_stock}
-                    img={img}
-                    title={name}
-                    price={price}
-                    subPrice={sub_price}
-                    maxRating={5}
-                    rating={rating}
-                  />
-                </ListItemProduct>
-              )
-            )}
-          </ListProducts>
-          <Pagination
-            pages={products}
-            currentPage={currentPage}
-            setPage={setPage}
-            pushHistory={pushHistory}
-          />
-        </>
-      ) : <EmptyContent />
+      <>
+        <ListProducts>
+          {products[currentPage - 1].map(
+            ({ id, name, in_stock, price, sub_price, rating, img }) => (
+              <ListItemProduct key={id}>
+                <ProductCard
+                  isInStock={in_stock}
+                  img={img}
+                  title={name}
+                  price={price}
+                  subPrice={sub_price}
+                  maxRating={5}
+                  rating={rating}
+                />
+              </ListItemProduct>
+            )
+          )}
+        </ListProducts>
+        <Pagination
+          pages={products}
+          currentPage={currentPage}
+          setPage={setPage}
+          pushHistory={pushHistory}
+        />
+      </>
     )
   }
 }
