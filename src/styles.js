@@ -18,6 +18,7 @@ export const BaseButton = styled.button`
   font-weight: 400;
   line-height: 1;
   text-align: center;
+  text-decoration: none;
   padding: 8px 16px;
   width: ${props => props.fullWidth ? '100%' : 'auto'};
   background-color: ${props => props.secondary ? '#FFF' : '#323C48'};

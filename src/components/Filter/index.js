@@ -1,7 +1,6 @@
 import React from 'react';
 import pt from 'prop-types';
 import { inputNumberMask } from '../../utils/inputNumberMask';
-import { stringifyQuery, parseQuery } from '../../utils/url';
 import Discount from 'csssr-school-input-discount/lib';
 import {
   Form,
@@ -17,7 +16,7 @@ import {
 
 import { BaseButton } from '../../styles';
 
-export default class Filter extends React.Component {
+export class Filter extends React.Component {
   static defaultProps = {
     setFilter: () => {},
     minPrice: 0,
@@ -26,28 +25,6 @@ export default class Filter extends React.Component {
     categories: [],
     activeCategories: [],
     resetFilter: () => {},
-  }
-
-  componentDidMount() {
-    const { setFilter } = this.props;
-    const { category } = parseQuery(window.location.search.substr(1));
-
-    if (category) {
-      setFilter({ activeCategories: category });
-    }
-
-    window.addEventListener('popstate', this.setFromHistory);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('popstate', this.setFromHistory);
-  }
-
-  setFromHistory = (event) => {
-    const { setFilter } = this.props;
-    const { category = [] } = parseQuery(window.location.search.substr(1));
-
-    setFilter({ activeCategories: category });
   }
 
   handleSubmit = (event) => {
@@ -66,7 +43,7 @@ export default class Filter extends React.Component {
   }
 
   handleChangeCategory = (event) => {
-    const { setFilter, activeCategories } = this.props;
+    const { setFilter, activeCategories, pushHistory, setPage } = this.props;
     let categories = [];
 
     if (event.target.checked) {
@@ -77,24 +54,24 @@ export default class Filter extends React.Component {
       );
     }
 
-    const url = `${window.location.pathname}?${stringifyQuery({
-      category: categories,
-    })}`;
-
-    window.history.pushState(null, 'category', url);
-
     const newState = { activeCategories: categories };
-
+    pushHistory('category', {
+      category: categories,
+      page: 1,
+    });
+    setPage(1);
     setFilter(newState);
   }
 
   handleResetFilter = (event) => {
     event.preventDefault();
 
-    const { resetFilter } = this.props;
+    const { resetFilter, pushHistory } = this.props;
 
     resetFilter();
-    window.history.pushState(null, 'page', window.location.pathname);
+    pushHistory('category', {
+      category: null,
+    });
   }
 
   render() {
@@ -181,6 +158,7 @@ export default class Filter extends React.Component {
 
 Filter.propTypes = {
   setFilter: pt.func.isRequired,
+  setPage: pt.func.isRequired,
   minPrice: pt.number.isRequired,
   maxPrice: pt.number.isRequired,
   discount: pt.number.isRequired,
