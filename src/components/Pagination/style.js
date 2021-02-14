@@ -10,6 +10,18 @@ export const Button = styled(BaseButton)`
   margin-right: ${props => props.isPrev ? '14px' : 0};
   margin-left: ${props => props.isNext ? '14px' : 0};
   width: ${props => props.isPrev || props.isNext ? '88px' : 'auto'};
+
+  ${({ isDisable }) => {
+    if (isDisable) {
+      return {
+        cursor: 'not-allowed',
+        opacity: 0.5,
+        '&:hover': {
+          'box-shadow': 'none',
+        }
+      };
+    }
+  }}
 `
 
 export const Container = styled.div`

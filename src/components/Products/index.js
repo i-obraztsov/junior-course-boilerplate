@@ -2,7 +2,7 @@ import React from 'react';
 import pt from 'prop-types';
 import { EmptyContent } from '../EmptyContent';
 import ProductCard from '../ProductCard';
-import { Pagination } from '../Pagination';
+import Pagination from '../Pagination';
 
 import { ListProducts, ListItemProduct } from './style';
 
@@ -12,40 +12,42 @@ export default class Products extends React.Component {
   }
 
   render() {
-    const { products } = this.props;
+    const { products, currentPage, setPage, pushHistory } = this.props;
 
     return (
-      <>
-        <ListProducts>
-          {products.length ? (
-            products.map(({ id, name, in_stock, price, sub_price, rating, img }) => (
-              <ListItemProduct key={id}>
-                <ProductCard
-                  isInStock={in_stock}
-                  img={img}
-                  title={name}
-                  price={price}
-                  subPrice={sub_price}
-                  maxRating={5}
-                  rating={rating}
-                />
-              </ListItemProduct>
-            ))
-          ) : (
-            <ListItemProduct fullWidth>
-              <EmptyContent />
-            </ListItemProduct>
-          )}
-        </ListProducts>
-
-        <Pagination />
-      </>
+      products.length && currentPage <= products.length ? (
+        <>
+          <ListProducts>
+            {products[currentPage - 1].map(
+              ({ id, name, in_stock, price, sub_price, rating, img }) => (
+                <ListItemProduct key={id}>
+                  <ProductCard
+                    isInStock={in_stock}
+                    img={img}
+                    title={name}
+                    price={price}
+                    subPrice={sub_price}
+                    maxRating={5}
+                    rating={rating}
+                  />
+                </ListItemProduct>
+              )
+            )}
+          </ListProducts>
+          <Pagination
+            pages={products}
+            currentPage={currentPage}
+            setPage={setPage}
+            pushHistory={pushHistory}
+          />
+        </>
+      ) : <EmptyContent />
     )
   }
 }
 
 Products.propTypes = {
-  products: pt.arrayOf(pt.shape({
+  products: pt.arrayOf(pt.arrayOf(pt.shape({
     id: pt.number.isRequired,
     name: pt.string.isRequired,
     rating: pt.number.isRequired,
@@ -57,5 +59,8 @@ Products.propTypes = {
     img: pt.string.isRequired,
     category: pt.string.isRequired,
     in_stock: pt.bool.isRequired,
-  }).isRequired).isRequired,
+  }).isRequired).isRequired).isRequired,
+  currentPage: pt.number.isRequired,
+  setPage: pt.func.isRequired,
+  pushHistory: pt.func.isRequired,
 };
