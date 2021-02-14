@@ -6,18 +6,30 @@ const { min, max } = findMinAndMax(products);
 const allCategories = uniqBy(products, 'category');
 
 /* Actions */
-const APPLY = 'filter/APPLY';
+const SET_FILTER = 'filter/SET_FILTER';
 const RESET = 'filter/RESET';
 
 /* Action creators */
 export const setFilter = (filter) => ({
-  type: APPLY,
+  type: SET_FILTER,
   payload: { filter },
 });
 
 export const resetFilter = () => ({
   type: RESET,
 });
+
+/* Selectors */
+export const productsSelector = state => state.products;
+
+// minPrice | maxPrice
+export const priceSelector = (param = 'minPrice') => state => state[param];
+
+export const discountSelector = state => state.discount;
+
+export const categorySelector = (state) =>
+  state.activeCategories.length ? state.activeCategories : state.allCategories;
+
 
 const initState = {
   minPrice: min,
@@ -26,12 +38,12 @@ const initState = {
   allCategories,
   activeCategories: [],
   products,
-}
+};
 
 /* Reducer */
 export default function reducer(state = initState, action) {
   switch (action.type) {
-    case APPLY: {
+    case SET_FILTER: {
       const { filter } = action.payload;
       return {
         ...state,
@@ -48,4 +60,4 @@ export default function reducer(state = initState, action) {
       return state;
     }
   }
-}
+};
