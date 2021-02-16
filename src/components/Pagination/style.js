@@ -15,6 +15,7 @@ export const Button = styled(BaseButton)`
     if (isDisable) {
       return {
         cursor: 'not-allowed',
+        'pointer-events': 'none',
         opacity: 0.5,
         '&:hover': {
           'box-shadow': 'none',

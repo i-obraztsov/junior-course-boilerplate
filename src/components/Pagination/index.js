@@ -14,15 +14,9 @@ class Pagination extends React.Component {
   handleClick = (event) => {
     event.preventDefault();
     const pageNumber = +event.target.getAttribute('href').substr(1);
-    const { setPage, currentPage, pages, pushHistory } = this.props;
+    const { setPage, currentPage, pushHistory } = this.props;
 
-    if (
-      currentPage === pageNumber ||
-      pageNumber <= 0 ||
-      pageNumber - 1 >= pages.length
-    ) {
-      return;
-    }
+    if (currentPage === pageNumber) return;
 
     pushHistory('page', {
       page: pageNumber
@@ -34,9 +28,7 @@ class Pagination extends React.Component {
   render() {
     const { currentPage, pages } = this.props;
 
-    if (!pages.length) {
-      return null;
-    }
+    if (!pages.length) return null;
 
     return (
       <Container>
@@ -50,12 +42,13 @@ class Pagination extends React.Component {
         >
           Назад
         </Button>
+
         {pages.map((page, index) => {
           if (index + 1 > 6) {
             return null;
           }
 
-          if (index + 1 === 6) {
+          if (index === 5) {
             return (
               <>
                 <Button
@@ -81,6 +74,7 @@ class Pagination extends React.Component {
               </>
             );
           }
+
           return (
             <Button
               key={page[0].id}
@@ -94,6 +88,7 @@ class Pagination extends React.Component {
             </Button>
           )
         })}
+
         <Button
           as="a"
           isDisable={currentPage >= pages.length}
