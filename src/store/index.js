@@ -1,4 +1,5 @@
 import { createStore, combineReducers } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
 import filter from '../modules/filter';
 import pagination from '../modules/pagination';
@@ -8,4 +9,7 @@ const reducer = combineReducers({
   pagination,
 })
 
-export const store = createStore(reducer);
+export const store = createStore(
+  reducer,
+  composeWithDevTools(),
+);
