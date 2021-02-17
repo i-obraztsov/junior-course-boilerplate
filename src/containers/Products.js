@@ -1,28 +1,15 @@
 import { connect } from 'react-redux';
-import { filterGoods } from '../utils/filterGoods';
-import { memoize } from '../utils/memoize';
+import { withHistory } from '../hocs/withHistory';
+import { productSliceSelector, setPage } from '../modules/pagination';
 import Products from '../components/Products';
 
-const memoizeFilter = memoize(filterGoods);
+const mapDispatchToProps = (dispatch) => ({
+  setPage: (pageNumber) => dispatch(setPage(pageNumber)),
+});
 
-const mapStateToProps = ({
-  minPrice,
-  maxPrice,
-  discount,
-  activeCategories,
-  allCategories,
-  products,
-}) => {
-  const filteredProducts = memoizeFilter(products, {
-    categories: activeCategories.length ? activeCategories : allCategories,
-    minPrice,
-    maxPrice,
-    discount,
-  });
+const mapStateToProps = ({ filter, pagination }) => ({
+  products: productSliceSelector(filter),
+  currentPage: pagination.page,
+});
 
-  return {
-    products: filteredProducts,
-  };
-};
-
-export default connect(mapStateToProps)(Products);
+export default connect(mapStateToProps, mapDispatchToProps)(withHistory(Products));

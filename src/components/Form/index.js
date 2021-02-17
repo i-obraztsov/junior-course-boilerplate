@@ -8,7 +8,6 @@ import {
   Label,
   Row,
   InputWrap,
-  Button,
   LabelAsButton
 } from './style';
 
@@ -20,7 +19,6 @@ export {
   Label,
   Row,
   InputWrap,
-  Button,
   Checkbox,
   LabelAsButton
 }

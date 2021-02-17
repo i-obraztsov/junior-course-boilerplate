@@ -1,20 +1,11 @@
-import { createStore } from 'redux';
-import products from '../products.json';
-import { findMinAndMax } from '../utils/findMinAndMax';
-import { uniqBy } from '../utils/uniqBy';
+import { createStore, combineReducers } from 'redux';
 
-import reducer from '../reducers';
+import filter from '../modules/filter';
+import pagination from '../modules/pagination';
 
-const { min, max } = findMinAndMax(products);
-const allCategories = uniqBy(products, 'category');
+const reducer = combineReducers({
+  filter,
+  pagination,
+})
 
-export const initState = {
-  minPrice: min,
-  maxPrice: max,
-  discount: 0,
-  allCategories,
-  activeCategories: [],
-  products,
-}
-
-export const store = createStore(reducer, initState);
+export const store = createStore(reducer);
