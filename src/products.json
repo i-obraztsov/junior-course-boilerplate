@@ -138,5 +138,85 @@
     "img": "https://source.unsplash.com/collection/190727/1600x900",
     "category": "goods for kids",
     "in_stock": true
+  },
+  {
+    "id": 15,
+    "name": "Название n-го товара",
+    "rating": 3,
+    "price": 12500,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "books",
+    "in_stock": true
+  },
+  {
+    "id": 16,
+    "name": "Название первого товара",
+    "rating": 1,
+    "price": 21000,
+    "sub_price": 30000,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "books",
+    "in_stock": false
+  },
+  {
+    "id": 17,
+    "name": "Название второго товара",
+    "rating": 5,
+    "price": 1,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "books",
+    "in_stock": true
+  },
+  {
+    "id": 18,
+    "name": "Название третьего товара",
+    "rating": 2,
+    "price": 100,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "books",
+    "in_stock": true
+  },
+  {
+    "id": 19,
+    "name": "Название четвёртого товара",
+    "rating": 4,
+    "price": 145000,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "books",
+    "in_stock": true
+  },
+  {
+    "id": 20,
+    "name": "Название пятого товара",
+    "rating": 4,
+    "price": 7000,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "books",
+    "in_stock": true
+  },
+  {
+    "id": 21,
+    "name": "Самое длинное название из всех, что есть. Очень-очень длинное",
+    "rating": 3,
+    "price": 12500,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "books",
+    "in_stock": true
+  },
+  {
+    "id": 22,
+    "name": "Название n-го товара",
+    "rating": 3,
+    "price": 12500,
+    "sub_price": null,
+    "img": "https://source.unsplash.com/collection/190727/1600x900",
+    "category": "books",
+    "in_stock": true
   }
 ]
