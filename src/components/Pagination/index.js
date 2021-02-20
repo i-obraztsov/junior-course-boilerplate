@@ -1,29 +1,25 @@
 import React from 'react';
 import pt from 'prop-types';
 
-import { Container, Button } from './style';
+import { Container, StyledLink } from './style';
+
+import { parseQuery, stringifyQuery } from '../../utils/url';
 
 class Pagination extends React.Component {
   static defaultProps = {
     pages: [],
-    currentPage: 0,
-    pushHistory: () => {},
-    setPage: () => {},
+    currentPage: 1,
   }
 
-  handleClick = (event) => {
-    event.preventDefault();
-    const pageNumber = +event.target.getAttribute('href').substr(1);
-    const { setPage, currentPage, pushHistory } = this.props;
+  getQuery = (search, pageNumber) => {
+    const { category } = parseQuery(search, { parseString: true });
+    let qs = `?${stringifyQuery({
+      category,
+      page: pageNumber,
+    })}`
 
-    if (currentPage === pageNumber) return;
-
-    pushHistory('page', {
-      page: pageNumber
-    });
-    setPage(pageNumber);
-
-  };
+    return qs;
+  }
 
   render() {
     const { currentPage, pages } = this.props;
@@ -32,16 +28,13 @@ class Pagination extends React.Component {
 
     return (
       <Container>
-        <Button
-          as="a"
+        <StyledLink
+          to={({ search }) => this.getQuery(search, currentPage - 1)}
           isDisable={currentPage - 1 <= 0}
-          href={`#${currentPage - 1}`}
-          onClick={this.handleClick}
-          secondary
           isPrev
         >
           Назад
-        </Button>
+        </StyledLink>
 
         {pages.map((page, index) => {
           if (index + 1 > 6) {
@@ -51,54 +44,42 @@ class Pagination extends React.Component {
           if (index === 5) {
             return (
               <>
-                <Button
+                <StyledLink
                   key={page[0].id}
-                  as="a"
-                  href={`#${index + 1}`}
-                  onClick={this.handleClick}
+                  to={({ search }) => this.getQuery(search, index + 1)}
                   isActive={index + 1 === currentPage}
-                  secondary
                 >
                   ...
-                </Button>
-                <Button
+                </StyledLink>
+                <StyledLink
                   key={page[1].id}
-                  as="a"
-                  href={`#${pages.length}`}
-                  onClick={this.handleClick}
+                  to={({ search }) => this.getQuery(search, pages.length)}
                   isActive={pages.length === currentPage}
-                  secondary
                 >
                   {pages.length}
-                </Button>
+                </StyledLink>
               </>
             );
           }
 
           return (
-            <Button
+            <StyledLink
               key={page[0].id}
-              as="a"
-              href={`#${index + 1}`}
-              onClick={this.handleClick}
+              to={({ search }) => this.getQuery(search, index + 1)}
               isActive={index + 1 === currentPage}
-              secondary
             >
               {index + 1}
-            </Button>
+            </StyledLink>
           )
         })}
 
-        <Button
-          as="a"
+        <StyledLink
           isDisable={currentPage >= pages.length}
-          href={`#${currentPage + 1}`}
-          onClick={this.handleClick}
-          secondary
+          to={({ search }) => this.getQuery(search, currentPage + 1)}
           isNext
         >
           Вперёд
-        </Button>
+        </StyledLink>
       </Container>
     )
   }
@@ -108,7 +89,5 @@ export default Pagination;
 
 Pagination.propTypes = {
   pages: pt.array.isRequired,
-  setPage: pt.func.isRequired,
   currentPage: pt.number.isRequired,
-  pushHistory: pt.func.isRequired
 };
