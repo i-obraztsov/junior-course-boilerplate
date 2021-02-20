@@ -3,8 +3,8 @@ import { calcDiscount } from './calcDiscount';
 export const filterGoods = (data = [], filter) => {
   let goods = data;
 
-  if (filter.categories && filter.categories.length) {
-    goods = goods.filter(({ category }) => filter.categories.includes(category));
+  if (filter.category) {
+    goods = goods.filter(({ category }) => filter.category === category);
   }
 
   goods = goods.filter(({ price, sub_price: subPrice }) => {
