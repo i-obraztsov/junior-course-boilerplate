@@ -3,15 +3,14 @@ import pt from 'prop-types';
 import { ReactComponent as Arrow } from './arrow.svg';
 import { StyledLink } from './style';
 
-export const LinkArrow = ({ href, onClick }) =>  {
+export const LinkArrow = (props) =>  {
   return (
-    <StyledLink href={href} onClick={onClick}>
+    <StyledLink { ...props }>
       <Arrow/>
     </StyledLink>
   )
 }
 
 LinkArrow.propTypes = {
-  href: pt.string.isRequired,
-  onClick: pt.func.isRequired
+  to: pt.string.isRequired
 };

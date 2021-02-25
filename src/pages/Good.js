@@ -3,8 +3,6 @@ import { Redirect } from 'react-router-dom';
 
 import products from '../products.json';
 
-import { history } from '../utils/history';
-
 import { LinkArrow } from '../components/LinkArrow';
 import { Title } from '../components/Title';
 import { Product } from '../components/Product';
@@ -21,17 +19,11 @@ export const Good = (props) => {
     return <Redirect to="/notFound" />
   }
 
-  const handleClick = (event) => {
-    event.preventDefault();
-
-    history.goBack();
-  }
-
   return (
     <Container innerPage>
       <PageHeader>
         <WrapTitle>
-          <LinkArrow onClick={handleClick} href="#" />
+          <LinkArrow to="/" />
           <Title level={1}>{product.name}</Title>
         </WrapTitle>
       </PageHeader>

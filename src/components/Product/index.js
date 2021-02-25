@@ -25,7 +25,7 @@ export const Product = ({
       <Img src={img} alt={` Фото ${name}`} />
 
       <Description>
-        <SubTitle level={2}>{name}</SubTitle>
+        <SubTitle as="h2">{name}</SubTitle>
         <WrapRating>
           {range(5).map((i) =>
             React.createElement(Rating, {
