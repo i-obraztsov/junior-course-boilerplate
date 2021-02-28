@@ -19,6 +19,7 @@ export const SubTitle = styled(Title)`
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
+  text-align: left;
 `
 
 export const Description = styled.div`
