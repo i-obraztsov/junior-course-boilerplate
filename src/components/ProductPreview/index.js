@@ -1,25 +1,30 @@
 import React from 'react';
 import pt from 'prop-types';
 import ProductItem from 'csssr-school-product-card/lib';
+import { AVAILABLE_GOOD, MAX_RATING } from '../../constants';
 import { Rating } from '../Rating';
 import { Price } from '../Price';
-
 import { StyledLink } from './style';
 
 export class ProductPreview extends React.Component {
   render() {
-    const { isInStock, title, price, subPrice, rating, img, id } = this.props;
+    const { status, title, price, subPrice, rating, img, id } = this.props;
+    const isAvailable = status === AVAILABLE_GOOD;
+
     return (
-      <StyledLink to={`/${id}`} isInStock={isInStock}>
+      <StyledLink
+        to={`/${id}`}
+        isInStock={isAvailable}
+      >
         <ProductItem
-          isInStock={isInStock}
-          img={img}
+          isInStock={isAvailable}
+          img={`/assets/img/products${img}`}
           title={title}
-          price={<Price isInStock={isInStock} price={price} />}
+          price={<Price isInStock={isAvailable} price={price} />}
           subPriceContent={
-            <Price isInStock={isInStock} price={subPrice} isSub />
+            <Price isInStock={isAvailable} price={subPrice} isSub />
           }
-          maxRating={5}
+          maxRating={MAX_RATING}
           rating={rating}
           ratingComponent={Rating}
         />
@@ -29,7 +34,7 @@ export class ProductPreview extends React.Component {
 }
 
 ProductPreview.propTypes = {
-  isInStock: pt.bool.isRequired,
+  status: pt.string.isRequired,
   title: pt.string.isRequired,
   price: pt.number.isRequired,
   subPrice: pt.number,

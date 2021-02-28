@@ -10,7 +10,7 @@ export const StyledLink = styled(
   transition: box-shadow 0.2s;
 
   :hover {
-    box-shadow: 0 0 12px 1px #323C48;
+    box-shadow: 0 0 5px 1px #0572F4;
   }
 
   ${({ isInStock }) => {
