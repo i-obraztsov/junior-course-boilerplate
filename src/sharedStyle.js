@@ -41,6 +41,22 @@ export const Sidebar = styled.div`
   grid-row-start: 2;
 `
 
+export const Content = styled(MainContent)`
+  grid-column-start: 2;
+  grid-column-end: 3;
+`
+
+export const PageHeader = styled(Header)`
+  grid-column-start: 2;
+  grid-column-end: 3;
+`
+
+export const WrapTitle = styled.div`
+  display: flex;
+  justify-content: ${props => props.center ? 'center' : 'flex-start'};
+  align-items: center;
+`
+
 export const BaseButton = styled.button`
   display: block;
   font-family: "Open Sans", sans-serif;

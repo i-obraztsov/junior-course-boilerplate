@@ -32,11 +32,11 @@ form h3 {
   font-family: "Open Sans", sans-serif !important;
 }
 
-input[name="sale"] {
+input[name="discount"] {
   max-width: 207px;
 }
 
-input[name="sale"]:focus {
+input[name="discount"]:focus {
   outline: 2px solid #4a90e2;
   outline-offset: 2px;
 }
