@@ -3,16 +3,19 @@ import { LinkArrow } from '../components/LinkArrow';
 import { NotFound as NotFoundPict } from '../components/NotFound';
 import { Title } from '../components/Title';
 
-import { Container } from '../sharedStyle';
-import { WrapTitle, Content, PageHeader } from './style';
+import { Container, WrapTitle, Content, PageHeader} from '../sharedStyle';
 
-export const NotFound = () => {
+export const NotFound = ({ location }) => {
+  const { state } = location;
+  const title = (state && state.title) || 'Товар не найден';
+  const showLink = !state || state.showLink;
+
   return (
     <Container innerPage>
       <PageHeader>
         <WrapTitle center>
-          <LinkArrow to="/" />
-          <Title level={1}>Товар не найден</Title>
+          { showLink && <LinkArrow to="/" /> }
+          <Title level={1}>{title}</Title>
         </WrapTitle>
       </PageHeader>
       <Content>
