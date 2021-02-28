@@ -13,9 +13,14 @@ export const CategoryLink = styled(
 )`
   border-radius: 15px;
   margin-bottom: 24px;
+  margin-left: 16px;
   border-color: #7E8FA4;
   color: #7E8FA4;
   text-transform: capitalize;
+
+  &:first-child {
+    margin-left: 0;
+  }
 
   ${({ isActive }) => {
     if (isActive) {

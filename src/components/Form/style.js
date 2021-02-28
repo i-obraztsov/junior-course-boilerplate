@@ -53,9 +53,8 @@ export const Label = styled.label`
 export const Row = styled.div`
   display: flex;
   flex-wrap: ${props => props.noWrap ? 'nowrap' : 'wrap'};
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-}
 `
 
 export const InputWrap = styled.div`

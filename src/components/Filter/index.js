@@ -47,7 +47,14 @@ export class Filter extends React.Component {
       discount,
       minPrice,
       maxPrice,
+      loading,
+      error
     } = this.props;
+
+    if (loading || error || !categories.length) {
+      return null;
+    }
+
     return(
       <>
         <Form method="post" action="#" onSubmit={this.handleSubmit}>
