@@ -1,5 +1,3 @@
-import { calcDiscount } from './calcDiscount';
-
 export const filterGoods = (data = [], filter) => {
   let goods = data;
 
@@ -7,12 +5,11 @@ export const filterGoods = (data = [], filter) => {
     goods = goods.filter(({ category }) => filter.category === category);
   }
 
-  goods = goods.filter(({ price, sub_price: subPrice }) => {
-    const currentDiscount = calcDiscount(subPrice, price);
+  goods = goods.filter(({ price, discount }) => {
     return (
       price >= filter.minPrice &&
       price <= filter.maxPrice &&
-      filter.discount <= currentDiscount
+      filter.discount <= discount
     );
   });
 
