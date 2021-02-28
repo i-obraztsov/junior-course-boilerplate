@@ -1,15 +1,10 @@
 import { connect } from 'react-redux';
-import { withHistory } from '../hocs/withHistory';
-import { productSliceSelector, setPage } from '../modules/pagination';
-import Products from '../components/Products';
+import { productSliceSelector, } from '../modules/products';
+import ProductList from '../components/ProductList';
 
-const mapDispatchToProps = (dispatch) => ({
-  setPage: (pageNumber) => dispatch(setPage(pageNumber)),
+const mapStateToProps = ({ filter, router }) => ({
+  products: productSliceSelector({ ...filter, ...router.location }),
+  currentPage: +router.location.query.page || 1,
 });
 
-const mapStateToProps = ({ filter, pagination }) => ({
-  products: productSliceSelector(filter),
-  currentPage: pagination.page,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withHistory(Products));
+export default connect(mapStateToProps)(ProductList);

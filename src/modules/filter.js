@@ -7,16 +7,11 @@ const allCategories = uniqBy(products, 'category');
 
 /* Actions */
 const SET_FILTER = 'filter/SET_FILTER';
-const RESET = 'filter/RESET';
 
 /* Action creators */
 export const setFilter = (filter) => ({
   type: SET_FILTER,
   payload: { filter },
-});
-
-export const resetFilter = () => ({
-  type: RESET,
 });
 
 /* Selectors */
@@ -27,16 +22,13 @@ export const priceSelector = (param = 'minPrice') => state => state[param];
 
 export const discountSelector = state => state.discount;
 
-export const categorySelector = (state) =>
-  state.activeCategories.length ? state.activeCategories : state.allCategories;
-
+export const categorySelector = state => state.query.category || '';
 
 const initState = {
   minPrice: min,
   maxPrice: max,
   discount: 0,
   allCategories,
-  activeCategories: [],
   products,
 };
 
@@ -48,12 +40,6 @@ export default function reducer(state = initState, action) {
       return {
         ...state,
         ...filter,
-      };
-    }
-    case RESET: {
-      return {
-        ...initState,
-        activeCategories: [],
       };
     }
     default: {

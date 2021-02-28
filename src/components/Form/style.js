@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { BaseButton } from '../../styles';
-
 export const StyledForm = styled.form`
   font-family: "Open Sans", sans-serif;
   margin-bottom: 20px;
@@ -49,32 +47,6 @@ export const Label = styled.label`
 
   :last-child {
     margin-right: 0;
-  }
-`
-
-export const LabelAsButton = styled(BaseButton)`
-  border-radius: 15px;
-  margin-bottom: 24px;
-  border-color: #7E8FA4;
-  color: #7E8FA4;
-  text-transform: capitalize;
-`
-
-export const Checkbox = styled.input`
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-
-  :checked + Label {
-    color: #FFF;
-    background-color: #323C48;
-  }
-
-  :focus + Label {
-    outline: 2px solid #4A90E2;
-    outline-offset: 2px;
   }
 `
 

@@ -1,6 +1,5 @@
 import { Form } from './Form';
 import { Input } from './Input';
-import { Checkbox } from './Checkbox';
 
 import {
   Fieldset,
@@ -8,7 +7,6 @@ import {
   Label,
   Row,
   InputWrap,
-  LabelAsButton
 } from './style';
 
 export {
@@ -18,7 +16,5 @@ export {
   Legend,
   Label,
   Row,
-  InputWrap,
-  Checkbox,
-  LabelAsButton
+  InputWrap
 }

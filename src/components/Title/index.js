@@ -3,13 +3,13 @@ import pt from 'prop-types';
 
 import { Title as TitleStyled } from './style';
 
-export function Title({ children, tag = 'h1' }) {
+export function Title({ children, level = 1 }) {
   return (
-    <TitleStyled as={tag}>{children}</TitleStyled>
+    <TitleStyled as={`h${level}`}>{children}</TitleStyled>
   )
 }
 
 Title.propTypes = {
   children: pt.node.isRequired,
-  tag: pt.string,
+  level: pt.number,
 };

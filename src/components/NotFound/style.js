@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-export const Empty = styled.div`
-  font-size: 22px;
+export const Container = styled.div`
   text-align: center;
 `

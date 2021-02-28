@@ -1,18 +1,18 @@
 import React from 'react';
 import pt from 'prop-types';
 import { EmptyContent } from '../EmptyContent';
-import ProductCard from '../ProductCard';
+import { ProductPreview } from '../ProductPreview';
 import Pagination from '../Pagination';
 
 import { ListProducts, ListItemProduct } from './style';
 
-export default class Products extends React.Component {
+export default class ProductList extends React.Component {
   static defaultProps = {
     products: [],
   }
 
   render() {
-    const { products, currentPage, setPage, pushHistory } = this.props;
+    const { products, currentPage } = this.props;
 
     if (!products.length || currentPage > products.length) {
       return <EmptyContent />
@@ -24,7 +24,8 @@ export default class Products extends React.Component {
           {products[currentPage - 1].map(
             ({ id, name, in_stock, price, sub_price, rating, img }) => (
               <ListItemProduct key={id}>
-                <ProductCard
+                <ProductPreview
+                  id={id}
                   isInStock={in_stock}
                   img={img}
                   title={name}
@@ -40,15 +41,13 @@ export default class Products extends React.Component {
         <Pagination
           pages={products}
           currentPage={currentPage}
-          setPage={setPage}
-          pushHistory={pushHistory}
         />
       </>
     )
   }
 }
 
-Products.propTypes = {
+ProductList.propTypes = {
   products: pt.arrayOf(pt.arrayOf(pt.shape({
     id: pt.number.isRequired,
     name: pt.string.isRequired,
@@ -63,6 +62,4 @@ Products.propTypes = {
     in_stock: pt.bool.isRequired,
   }).isRequired).isRequired).isRequired,
   currentPage: pt.number.isRequired,
-  setPage: pt.func.isRequired,
-  pushHistory: pt.func.isRequired,
 };
