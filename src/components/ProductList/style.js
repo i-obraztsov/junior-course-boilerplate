@@ -8,6 +8,7 @@ export const ListProducts = styled.ul`
   list-style: none;
   padding: 0 16px;
   margin: 0;
+  min-height: 670px;
 `
 
 export const ListItemProduct = styled.li`

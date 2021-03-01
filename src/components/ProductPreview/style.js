@@ -9,8 +9,17 @@ export const StyledLink = styled(
   display: block;
   transition: box-shadow 0.2s;
 
+  & > div {
+    padding: 6px;
+    padding-top: 0;
+  }
+
+  & img {
+    margin-left: -6px;
+  }
+
   :hover {
-    box-shadow: 0 0 5px 1px #0572F4;
+    box-shadow: 0 0 5px 1px #5695ED;
   }
 
   ${({ isInStock }) => {
