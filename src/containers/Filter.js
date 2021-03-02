@@ -1,12 +1,15 @@
 import { connect } from 'react-redux';
 import { setFilter } from '../modules/filter';
+import { allCategoriesSelector } from '../modules/products';
 import { Filter } from '../components/Filter';
 
-const mapStateToProps = ({ filter, router }) => ({
+const mapStateToProps = ({ filter, router, productsList }) => ({
   minPrice: filter.minPrice,
   maxPrice: filter.maxPrice,
   discount: filter.discount,
-  categories: filter.allCategories,
+  loading: productsList.loading,
+  error: productsList.error,
+  categories: allCategoriesSelector(productsList),
   activeCategory: router.location.query.category || '',
 });
 
